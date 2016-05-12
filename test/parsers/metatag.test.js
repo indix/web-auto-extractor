@@ -8,5 +8,6 @@ describe('MetaTag Parser', function () {
     const html = fs.readFileSync('test/resources/sample.html')
     const $ = cheerio.load(html)
     const parsedMetaTags = parseMetaTags($)
+    console.log(parsedMetaTags)
   })
 })
