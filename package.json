@@ -1,24 +1,20 @@
 {
   "name": "parser-bot",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha",
   "description": "Helper bot for extracting fields from a webpage",
   "main": "index.js",
   "scripts": {
     "build": "babel src -d dist",
-    "dev-start": "standard && babel-node src/app.js",
-    "start": "nodemon --exec npm run dev-start",
-    "prod-start": "npm run build && node dist/app.js",
     "test": "standard && mocha --recursive --compilers js:babel-register",
-    "lint": "standard"
+    "lint": "standard",
+    "dev": "nodemon --exec npm run lint"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^0.20.0",
-    "koa": "^1.2.0",
-    "koa-mount": "^1.3.0",
-    "koa-router": "^5.4.0",
-    "lodash": "^4.12.0"
+    "lodash": "^4.12.0",
+    "md5": "^2.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
