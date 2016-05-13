@@ -7,16 +7,17 @@ class MicrodataParser {
   }
 
   parse () {
-    const $html = $.load(this.html)
-    let itemTypes = MicrodataParserHelper.identifyItemTypes($html)
-    const microdata = MicrodataParserHelper.identifyItemProps($html, itemTypes)
+    const $html = $.load(this.html, { xmlMode: true })
+    const microdata = MicrodataParserHelper.parseItems($html)
     return microdata
   }
 }
 
 class MicrodataParserHelper {
   static getItemPropValue (itemPropElement) {
-    if ($(itemPropElement).attr('content')) {
+    if ($(itemPropElement).attr('itemtype')) {
+      return null
+    } else if ($(itemPropElement).attr('content')) {
       return $(itemPropElement).attr('content')
     } else if ($(itemPropElement).attr('itemprop') === 'image' && $(itemPropElement).attr('src')) {
       return $(itemPropElement).attr('src')
@@ -25,41 +26,43 @@ class MicrodataParserHelper {
     }
   }
 
-  static identifyItemTypes ($html) {
-    let itemTypes = {}
-    $html('[itemtype]').each((index, itemTypeElement) => {
-      const itemTypeId = md5($(itemTypeElement).html())
-      itemTypes[itemTypeId] = {
-        name: $(itemTypeElement).attr('itemtype'),
-        properties: []
+  static parseItems ($html) {
+    let items = {}
+
+    $html('[itemtype], [itemprop]').each((index, itemElement) => {
+      const id = md5($(itemElement).html())
+      const parentItemTypeHtml = $(itemElement).parent().closest('[itemtype]').html()
+      const parentItemTypeId = (parentItemTypeHtml) ? md5(parentItemTypeHtml) : null
+      const name = $(itemElement).attr('itemprop') || $(itemElement).attr('itemtype')
+      let similarSiblingsPosition
+
+      if (parentItemTypeId) {
+        if (!items[parentItemTypeId]) {
+          items[parentItemTypeId] = { properties: {} }
+        }
+        if (!items[parentItemTypeId].properties[name]) {
+          items[parentItemTypeId].properties[name] = []
+        }
+        similarSiblingsPosition = items[parentItemTypeId].properties[name].length
+        items[parentItemTypeId].properties[name].push(id)
+      }
+
+      items[id] = {
+        type: $(itemElement).attr('itemtype') || $(itemElement).attr('itemprop'),
+        name,
+        value: this.getItemPropValue(itemElement),
+        properties: {},
+        parentItemTypeId,
+        similarSiblingsPosition,
+        ...items[id]
       }
     })
-    return itemTypes
+
+    return items
   }
 
-  static identifyItemProps ($html, itemTypes) {
-    const itemProps = {}
-    $html('[itemprop]').each((index, itemPropElement) => {
-      const parentItemType = $(itemPropElement).closest('[itemtype]')
-      const parentItemTypeHtml = $(parentItemType).html()
-      const parentItemTypeId = (parentItemTypeHtml) ? md5($(parentItemType).html()) : null
-      const itemPropId = md5($(itemPropElement).html())
-      if (parentItemTypeId === itemPropId) {
-        itemTypes[itemPropId].isProp = true
-        itemTypes[itemPropId].value = itemPropId
-      } else if (parentItemTypeId) {
-        itemTypes[parentItemTypeId].properties.push(itemPropId)
-      }
-      itemProps[itemPropId] = {
-        name: $(itemPropElement).attr('itemprop'),
-        value: this.getItemPropValue(itemPropElement),
-        parentItemTypeId
-      }
-    })
-    return {
-      itemTypes,
-      itemProps
-    }
+  static processCssSelector (items) {
+
   }
 }
 
