@@ -21,8 +21,10 @@ export default function (html) {
     const id = md5($(itemElement).html())
     const parentItemTypeHtml = $(itemElement).parent().closest('[itemtype]').html()
     const parentItemTypeId = (parentItemTypeHtml) ? md5(parentItemTypeHtml) : null
-    const name = $(itemElement).attr('itemprop') || $(itemElement).attr('itemtype')
-    let similarSiblingsPosition
+    const isProp = $(itemElement).attr('itemprop') !== undefined
+    const name = (isProp) ? $(itemElement).attr('itemprop') : $(itemElement).attr('itemtype')
+    let relativeIndexPosition = 0
+    let parentSelector = ''
 
     if (parentItemTypeId) {
       if (!items[parentItemTypeId]) {
@@ -31,17 +33,24 @@ export default function (html) {
       if (!items[parentItemTypeId].properties[name]) {
         items[parentItemTypeId].properties[name] = []
       }
-      similarSiblingsPosition = items[parentItemTypeId].properties[name].length
+      relativeIndexPosition = items[parentItemTypeId].properties[name].length
       items[parentItemTypeId].properties[name].push(id)
+      parentSelector = items[parentItemTypeId].cssSelector + ' '
     }
 
+    const relativeSelector = ((isProp)
+                              ? `[itemprop="${name}"]`
+                              : `[itemtype="${name}"]`
+                            ) + `:eq(${relativeIndexPosition})`
+    const cssSelector = `${parentSelector}${relativeSelector}`
+
     items[id] = {
-      type: $(itemElement).attr('itemtype') || $(itemElement).attr('itemprop'),
+      type: $(itemElement).attr('itemtype'),
       name,
       value: getItemPropValue(itemElement),
       properties: {},
       parentItemTypeId,
-      similarSiblingsPosition,
+      cssSelector,
       ...items[id]
     }
   })
