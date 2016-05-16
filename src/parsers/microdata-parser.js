@@ -13,6 +13,27 @@ function getItemPropValue (itemPropElement) {
   }
 }
 
+export function resolveMicrodata (items, idList) {
+  if (idList === undefined) {
+    idList = Object.keys(items).filter(id =>
+      items[id].parentItemTypeId === null)
+  }
+  return idList.map(id => {
+    const { type, name, value, properties, cssSelector } = items[id]
+    let resolvedProperties = {}
+    Object.keys(properties).map(key => {
+      resolvedProperties[key] = resolveMicrodata(items, properties[key])
+    })
+    return {
+      type,
+      name,
+      value,
+      cssSelector,
+      properties: resolvedProperties
+    }
+  })
+}
+
 export default function (html) {
   const $html = $.load(html, { xmlMode: true })
   let items = {}
