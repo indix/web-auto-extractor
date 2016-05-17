@@ -35,7 +35,16 @@ export function resolveMicrodata (items, idList) {
 }
 
 export default function (html) {
-  const $html = $.load(html, { xmlMode: true })
+  let $html
+
+  if (typeof html === 'string') {
+    $html = $.load(html, { xmlMode: true })
+  } else if ($(html).cheerio) {
+    $html = html
+  } else {
+    throw new Error('Invalid argument: pass valid html string or cheerio object')
+  }
+
   let items = {}
 
   $html('[itemtype], [itemprop]').each((index, itemElement) => {
