@@ -68,18 +68,19 @@ export default function (html, specName) {
   const $html = getCheerioObject(html)
   let items = {}
 
-  $html(`[${TYPE}], [${PROP}]`).each((index, itemElement) => {
+  $html(`[${TYPE}], [${PROP}]`).each((idx, itemElement) => {
+    const itemElementId = $(itemElement).attr('id')
     const id = md5($(itemElement).html())
     const parentTypeHtml = $(itemElement).parent().closest(`[${TYPE}]`).html()
     const parentTypeId = (parentTypeHtml) ? md5(parentTypeHtml) : null
     const isProp = $(itemElement).attr(`${PROP}`) !== undefined
     const typeString = $(itemElement).attr(`${TYPE}`)
-    const name = (isProp) ? $(itemElement).attr(`${PROP}`) : type
-    let relativeIndexPosition = 0
-    let parentSelector = ''
     let { context, type } = typeString ? getType(typeString) : {}
     let contextString = $(itemElement).attr('vocab')
     context = contextString || context
+    const name = (isProp) ? $(itemElement).attr(`${PROP}`) : type
+    let relativeIndexPosition = 0
+    let parentSelector = ''
 
     if (parentTypeId) {
       if (!items[parentTypeId]) {
@@ -97,7 +98,7 @@ export default function (html, specName) {
                               ? `[${PROP}="${name}"]`
                               : `[${TYPE}="${name}"]`
                             ) + `:eq(${relativeIndexPosition})`
-    const cssSelector = `${parentSelector}${relativeSelector}`
+    const cssSelector = itemElementId ? `#${itemElementId}` : `${parentSelector}${relativeSelector}`
 
     items[id] = {
       context,

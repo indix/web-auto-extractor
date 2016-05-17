@@ -1,0 +1,71 @@
+
+> parser-bot@0.1.0-alpha test /home/addnab/ind9/web-auto-extractor
+> standard && mocha --recursive --compilers js:babel-register
+
+
+
+  Parser
+[
+  {
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "brand": "ACME",
+    "name": "Executive Anvil",
+    "image": "anvil_executive.jpg",
+    "description": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
+    "mpn": "925872",
+    "aggregateRating": {
+      "@context": "http://schema.org/",
+      "@type": "AggregateRating",
+      "ratingValue": "4.4",
+      "reviewCount": "89"
+    },
+    "offers": {
+      "@context": "http://schema.org/",
+      "@type": "Offer",
+      "priceCurrency": "anvil_executive.jpg",
+      "price": "119.99",
+      "priceValidUntil": "5 November!",
+      "seller": {
+        "@context": "http://schema.org/",
+        "@type": "Organization",
+        "name": "Executive Objects"
+      },
+      "itemCondition": "anvil_executive.jpg",
+      "availability": "anvil_executive.jpg"
+    }
+  }
+]
+    ✓ should find all elements with microdata
+[
+  {
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "brand": "ACME",
+    "name": "Executive Anvil",
+    "description": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
+    "mpn": "925872",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.4",
+      "reviewCount": "89"
+    },
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "USD",
+      "price": "119.99",
+      "priceValidUntil": "5 November!",
+      "seller": {
+        "@type": "Organization",
+        "name": "Executive Objects"
+      },
+      "itemCondition": "USD",
+      "availability": "USD"
+    }
+  }
+]
+    ✓ should find all elements with rdfa
+
+
+  2 passing (68ms)
+
