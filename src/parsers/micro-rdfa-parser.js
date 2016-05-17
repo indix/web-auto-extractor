@@ -6,11 +6,11 @@ function getPropValue (itemPropElement, TYPE, PROP) {
   if ($(itemPropElement).attr(`${TYPE}`)) {
     return null
   } else if ($(itemPropElement).attr('content')) {
-    return $(itemPropElement).attr('content')
+    return $(itemPropElement).attr('content').trim()
   } else if ($(itemPropElement).attr(`${PROP}`) === 'image' && $(itemPropElement).attr('src')) {
-    return $(itemPropElement).attr('src')
+    return $(itemPropElement).attr('src').trim()
   } else {
-    return $(itemPropElement).text()
+    return $(itemPropElement).text().trim()
   }
 }
 
@@ -20,17 +20,23 @@ export function resolve (items, idList) {
       items[id].parentTypeId === null)
   }
   return idList.map(id => {
-    const { type, name, value, properties, cssSelector } = items[id]
+    const { context, type, value, properties } = items[id]
+    if (!type) {
+      return value
+    }
     let resolvedProperties = {}
     Object.keys(properties).map(key => {
-      resolvedProperties[key] = resolve(items, properties[key])
+      let propValue = resolve(items, properties[key])
+      if (propValue.length === 1) {
+        resolvedProperties[key] = propValue[0]
+      } else if (propValue.length > 1) {
+        resolvedProperties[key] = propValue
+      }
     })
     return {
-      type,
-      name,
-      value,
-      cssSelector,
-      properties: resolvedProperties
+      '@context': context,
+      '@type': type,
+      ...resolvedProperties
     }
   })
 }
@@ -49,6 +55,14 @@ function getAttrNames (specName) {
   return { TYPE, PROP }
 }
 
+function getType (typeString) {
+  const match = (/(.*\/)(\w+)/g).exec(typeString)
+  return {
+    context: match && match[1] ? match[1] : undefined,
+    type: match && match[2] ? match[2] : typeString
+  }
+}
+
 export default function (html, specName) {
   const { TYPE, PROP } = getAttrNames(specName)
   const $html = getCheerioObject(html)
@@ -59,9 +73,13 @@ export default function (html, specName) {
     const parentTypeHtml = $(itemElement).parent().closest(`[${TYPE}]`).html()
     const parentTypeId = (parentTypeHtml) ? md5(parentTypeHtml) : null
     const isProp = $(itemElement).attr(`${PROP}`) !== undefined
-    const name = (isProp) ? $(itemElement).attr(`${PROP}`) : $(itemElement).attr(`${TYPE}`)
+    const typeString = $(itemElement).attr(`${TYPE}`)
+    const name = (isProp) ? $(itemElement).attr(`${PROP}`) : type
     let relativeIndexPosition = 0
     let parentSelector = ''
+    let { context, type } = typeString ? getType(typeString) : {}
+    let contextString = $(itemElement).attr('vocab')
+    context = contextString || context
 
     if (parentTypeId) {
       if (!items[parentTypeId]) {
@@ -82,7 +100,8 @@ export default function (html, specName) {
     const cssSelector = `${parentSelector}${relativeSelector}`
 
     items[id] = {
-      type: $(itemElement).attr(`${TYPE}`),
+      context,
+      type,
       name,
       value: getPropValue(itemElement, TYPE, PROP),
       properties: {},
