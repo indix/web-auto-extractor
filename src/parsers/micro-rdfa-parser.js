@@ -5,6 +5,8 @@ import { getCheerioObject } from './utils'
 function getPropValue (itemPropElement, TYPE, PROP) {
   if ($(itemPropElement).attr(`${TYPE}`)) {
     return null
+  } else if (itemPropElement.tagName === 'a' || itemPropElement.tagName === 'link') {
+    return $(itemPropElement).attr('href').trim()
   } else if ($(itemPropElement).attr('content')) {
     return $(itemPropElement).attr('content').trim()
   } else if ($(itemPropElement).attr(`${PROP}`) === 'image' && $(itemPropElement).attr('src')) {
@@ -70,8 +72,8 @@ export default function (html, specName) {
 
   $html(`[${TYPE}], [${PROP}]`).each((idx, itemElement) => {
     const itemElementId = $(itemElement).attr('id')
-    const id = md5($(itemElement).html())
-    const parentTypeHtml = $(itemElement).parent().closest(`[${TYPE}]`).html()
+    const id = md5($.html($(itemElement)))
+    const parentTypeHtml = $.html($(itemElement).parent().closest(`[${TYPE}]`))
     const parentTypeId = (parentTypeHtml) ? md5(parentTypeHtml) : null
     const isProp = $(itemElement).attr(`${PROP}`) !== undefined
     const typeString = $(itemElement).attr(`${TYPE}`)
@@ -96,7 +98,7 @@ export default function (html, specName) {
 
     const relativeSelector = ((isProp)
                               ? `[${PROP}="${name}"]`
-                              : `[${TYPE}="${name}"]`
+                              : `[${TYPE}="${typeString}"]`
                             ) + `:eq(${relativeIndexPosition})`
     const cssSelector = itemElementId ? `#${itemElementId}` : `${parentSelector}${relativeSelector}`
 
