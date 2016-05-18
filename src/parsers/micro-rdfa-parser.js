@@ -2,6 +2,10 @@ import $ from 'cheerio'
 import md5 from 'md5'
 import { getCheerioObject } from './utils'
 
+const defaultConfig = {
+  resolve: true
+}
+
 function getPropValue (itemPropElement, TYPE, PROP) {
   if ($(itemPropElement).attr(`${TYPE}`)) {
     return null
@@ -65,7 +69,7 @@ function getType (typeString) {
   }
 }
 
-export default function (html, specName) {
+export default function (html, specName, config = defaultConfig) {
   const { TYPE, PROP } = getAttrNames(specName)
   const $html = getCheerioObject(html)
   let items = {}
@@ -114,5 +118,8 @@ export default function (html, specName) {
     }
   })
 
+  if (config.resolve) {
+    return resolve(items)
+  }
   return items
 }
