@@ -1,6 +1,7 @@
 import $ from 'cheerio'
 import md5 from 'md5'
 import { getCheerioObject } from './utils'
+import _ from 'lodash'
 
 const defaultConfig = {
   resolve: true
@@ -39,11 +40,11 @@ export function resolve (items, idList) {
         resolvedProperties[key] = propValue
       }
     })
-    return {
+    return _.pickBy({
       '@context': context,
       '@type': type,
       ...resolvedProperties
-    }
+    }, (val) => !_.isUndefined(val))
   })
 }
 
