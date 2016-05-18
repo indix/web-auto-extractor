@@ -4,7 +4,7 @@ import parseMicroRdfa from './micro-rdfa-parser'
 import parseJsonld from './jsonld-parser'
 
 export default function (html) {
-  const $html = $.load(html)
+  const $html = $.load(html, { xmlMode: true })
   const meta = parseMetaTags($html)
   const micro = parseMicroRdfa($html, 'micro')
   const rdfa = parseMicroRdfa($html, 'rdfa')

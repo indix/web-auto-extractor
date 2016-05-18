@@ -3,7 +3,7 @@ import $ from 'cheerio'
 
 export default function (html) {
   const $html = getCheerioObject(html)
-  let jsonldData = {}
+  let jsonldData = []
 
   $html('script[type="application/ld+json"]').each((index, item) => {
     try {
