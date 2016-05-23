@@ -1,1 +1,3 @@
+[![Build Status](https://travis-ci.org/ind9/web-auto-extractor.svg?branch=master)](https://travis-ci.org/ind9/web-auto-extractor)
+
 In Progress...
