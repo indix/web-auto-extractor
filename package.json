@@ -1,6 +1,6 @@
 {
   "name": "parser-bot",
-  "version": "0.1.0-alpha",
+  "version": "0.1.0",
   "description": "Helper bot for extracting fields from a webpage",
   "main": "index.js",
   "scripts": {
