@@ -51,4 +51,11 @@ describe('Parser', function () {
     const data = parse(mixedHTML)
     assert.deepEqual(data, normalizedResult)
   })
+
+  it('should find element with selector', function () {
+    const data = parseMicroRdfa(microdataHTML, 'micro', {
+      withSelector: true
+    })
+    data
+  })
 })

@@ -4,7 +4,8 @@ import { getCheerioObject } from './utils'
 import _ from 'lodash'
 
 const defaultConfig = {
-  normalize: true
+  normalize: true,
+  withSelector: false
 }
 
 function getPropValue (itemPropElement, TYPE, PROP) {
@@ -31,19 +32,19 @@ function getPropValue (itemPropElement, TYPE, PROP) {
   }
 }
 
-export function normalize (items, idList) {
-  if (idList === undefined) {
+export function normalize (items, withSelector = false, idList = []) {
+  if (idList.length === 0) {
     idList = Object.keys(items).filter(id =>
       items[id].parentTypeId === null)
   }
   return idList.map(id => {
-    const { context, type, value, properties } = items[id]
+    const { context, type, value, properties, selector } = items[id]
     if (!type) {
-      return value
+      return withSelector ? { value, selector } : value
     }
     let normalizedProperties = {}
     Object.keys(properties).map(key => {
-      let propValue = normalize(items, properties[key])
+      let propValue = normalize(items, withSelector, properties[key])
       if (propValue.length === 1) {
         normalizedProperties[key] = propValue[0]
       } else if (propValue.length > 1) {
@@ -98,9 +99,15 @@ export default function (html, specName, config = {}) {
     const { context, type } = typeString ? getType(typeString) : {}
     const name = (isProp) ? $(itemElement).attr(`${PROP}`) : type
     const { value, attr } = getPropValue(itemElement, TYPE, PROP)
-
-    let relativeIndexPosition = 0
-    let parentSelector = ''
+    const processCssSelector = () => {
+      const relativeIndexPosition = parentTypeId ? items[parentTypeId].properties[name].length : 0
+      const parentSelector = parentTypeId ? items[parentTypeId].selector.select + ' ' : ''
+      const relativeSelector = ((isProp)
+                                ? `[${PROP}="${name}"]`
+                                : `[${TYPE}="${typeString}"]`
+                              ) + `:eq(${relativeIndexPosition})`
+      return itemElementId ? `#${itemElementId}` : `${parentSelector}${relativeSelector}`
+    }
 
     if (parentTypeId) {
       if (!items[parentTypeId]) {
@@ -109,16 +116,8 @@ export default function (html, specName, config = {}) {
       if (!items[parentTypeId].properties[name]) {
         items[parentTypeId].properties[name] = []
       }
-      relativeIndexPosition = items[parentTypeId].properties[name].length
       items[parentTypeId].properties[name].push(id)
-      parentSelector = items[parentTypeId].selector.select + ' '
     }
-
-    const relativeSelector = ((isProp)
-                              ? `[${PROP}="${name}"]`
-                              : `[${TYPE}="${typeString}"]`
-                            ) + `:eq(${relativeIndexPosition})`
-    const cssSelector = itemElementId ? `#${itemElementId}` : `${parentSelector}${relativeSelector}`
 
     items[id] = _.pickBy({
       context: vocab || context,
@@ -127,18 +126,18 @@ export default function (html, specName, config = {}) {
       value,
       properties: {},
       parentTypeId,
-      selector: {
-        select: cssSelector,
+      selector: config.withSelector ? {
+        select: processCssSelector(),
         extract: {
           attr
         }
-      },
+      } : undefined,
       ...items[id]
     }, (val) => !_.isUndefined(val))
   })
 
   if (config.normalize) {
-    return normalize(items)
+    return normalize(items, config.withSelector)
   }
   return items
 }
