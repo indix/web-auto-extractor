@@ -1,7 +1,7 @@
 import { getCheerioObject } from './utils'
 import $ from 'cheerio'
 
-export default function (html) {
+export default function (html, config = {}) {
   const $html = getCheerioObject(html)
   let jsonldData = []
 

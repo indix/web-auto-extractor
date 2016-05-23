@@ -4,7 +4,7 @@ import { getCheerioObject } from './utils'
 import _ from 'lodash'
 
 const defaultConfig = {
-  resolve: true
+  normalize: true
 }
 
 function getPropValue (itemPropElement, TYPE, PROP) {
@@ -21,7 +21,7 @@ function getPropValue (itemPropElement, TYPE, PROP) {
   }
 }
 
-export function resolve (items, idList) {
+export function normalize (items, idList) {
   if (idList === undefined) {
     idList = Object.keys(items).filter(id =>
       items[id].parentTypeId === null)
@@ -31,19 +31,19 @@ export function resolve (items, idList) {
     if (!type) {
       return value
     }
-    let resolvedProperties = {}
+    let normalizedProperties = {}
     Object.keys(properties).map(key => {
-      let propValue = resolve(items, properties[key])
+      let propValue = normalize(items, properties[key])
       if (propValue.length === 1) {
-        resolvedProperties[key] = propValue[0]
+        normalizedProperties[key] = propValue[0]
       } else if (propValue.length > 1) {
-        resolvedProperties[key] = propValue
+        normalizedProperties[key] = propValue
       }
     })
     return _.pickBy({
       '@context': context,
       '@type': type,
-      ...resolvedProperties
+      ...normalizedProperties
     }, (val) => !_.isUndefined(val))
   })
 }
@@ -70,9 +70,11 @@ function getType (typeString) {
   }
 }
 
-export default function (html, specName, config = defaultConfig) {
+export default function (html, specName, config = {}) {
+  _.defaults(config, defaultConfig)
   const { TYPE, PROP } = getAttrNames(specName)
   const $html = getCheerioObject(html)
+
   let items = {}
 
   $html(`[${TYPE}], [${PROP}]`).each((idx, itemElement) => {
@@ -82,10 +84,10 @@ export default function (html, specName, config = defaultConfig) {
     const parentTypeId = (parentTypeHtml) ? md5(parentTypeHtml) : null
     const isProp = $(itemElement).attr(`${PROP}`) !== undefined
     const typeString = $(itemElement).attr(`${TYPE}`)
-    let { context, type } = typeString ? getType(typeString) : {}
-    let contextString = $(itemElement).attr('vocab')
-    context = contextString || context
+    const vocab = $(itemElement).attr('vocab')
+    const { context, type } = typeString ? getType(typeString) : {}
     const name = (isProp) ? $(itemElement).attr(`${PROP}`) : type
+
     let relativeIndexPosition = 0
     let parentSelector = ''
 
@@ -107,8 +109,8 @@ export default function (html, specName, config = defaultConfig) {
                             ) + `:eq(${relativeIndexPosition})`
     const cssSelector = itemElementId ? `#${itemElementId}` : `${parentSelector}${relativeSelector}`
 
-    items[id] = {
-      context,
+    items[id] = _.pickBy({
+      context: vocab || context,
       type,
       name,
       value: getPropValue(itemElement, TYPE, PROP),
@@ -116,11 +118,11 @@ export default function (html, specName, config = defaultConfig) {
       parentTypeId,
       cssSelector,
       ...items[id]
-    }
+    }, (val) => !_.isUndefined(val))
   })
 
-  if (config.resolve) {
-    return resolve(items)
+  if (config.normalize) {
+    return normalize(items)
   }
   return items
 }
