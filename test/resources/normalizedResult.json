@@ -2,23 +2,11 @@
   "meta": [
     {
       "name": "priceCurrency",
-      "value": "USD",
-      "selector": {
-        "select": "meta[itemprop=\"priceCurrency\"]",
-        "extract": {
-          "attr": "content"
-        }
-      }
+      "value": "USD"
     },
     {
       "name": "priceCurrency",
-      "value": "USD",
-      "selector": {
-        "select": "meta[property=\"priceCurrency\"]",
-        "extract": {
-          "attr": "content"
-        }
-      }
+      "value": "USD"
     }
   ],
   "micro": [
