@@ -1,21 +1,23 @@
 {
   "meta": [
     {
-      "type": "meta",
       "name": "priceCurrency",
       "value": "USD",
       "selector": {
-        "cssSelector": "meta[itemprop=\"priceCurrency\"]",
-        "attribute": "content"
+        "select": "meta[itemprop=\"priceCurrency\"]",
+        "extract": {
+          "attr": "content"
+        }
       }
     },
     {
-      "type": "meta",
       "name": "priceCurrency",
       "value": "USD",
       "selector": {
-        "cssSelector": "meta[property=\"priceCurrency\"]",
-        "attribute": "content"
+        "select": "meta[property=\"priceCurrency\"]",
+        "extract": {
+          "attr": "content"
+        }
       }
     }
   ],

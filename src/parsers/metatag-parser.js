@@ -1,22 +1,22 @@
 import _ from 'lodash'
-import { ParsedItem, Selector, fieldType } from './fields'
 
 export const parseMetaTags = function ($, config = {}) {
   let parsedMetaItems = []
   $('meta').each((index, elem) => {
     const nameKey = _.find(_.keys(elem.attribs), attr => attr !== 'content')
     const name = elem.attribs[nameKey]
-    const content = elem.attribs['content']
+    const value = elem.attribs['content']
     parsedMetaItems.push(
-      ParsedItem(
-        fieldType.META,
+      {
         name,
-        content,
-        Selector(
-          `meta[${nameKey}="${name}"]`,
-          'content'
-        )
-      )
+        value,
+        selector: {
+          select: `meta[${nameKey}="${name}"]`,
+          extract: {
+            attr: 'content'
+          }
+        }
+      }
     )
   })
   return parsedMetaItems
