@@ -8,16 +8,26 @@ const defaultConfig = {
 }
 
 function getPropValue (itemPropElement, TYPE, PROP) {
+  let value, attr
   if ($(itemPropElement).attr(`${TYPE}`)) {
-    return null
+    value = null
+    attr = null
   } else if (itemPropElement.tagName === 'a' || itemPropElement.tagName === 'link') {
-    return $(itemPropElement).attr('href').trim()
+    value = $(itemPropElement).attr('href').trim()
+    attr = 'href'
   } else if ($(itemPropElement).attr('content')) {
-    return $(itemPropElement).attr('content').trim()
+    value = $(itemPropElement).attr('content').trim()
+    attr = 'content'
   } else if ($(itemPropElement).attr(`${PROP}`) === 'image' && $(itemPropElement).attr('src')) {
-    return $(itemPropElement).attr('src').trim()
+    value = $(itemPropElement).attr('src').trim()
+    attr = 'src'
   } else {
-    return $(itemPropElement).text().trim()
+    value = $(itemPropElement).text().trim()
+    attr = '@text'
+  }
+  return {
+    value,
+    attr
   }
 }
 
@@ -87,6 +97,7 @@ export default function (html, specName, config = {}) {
     const vocab = $(itemElement).attr('vocab')
     const { context, type } = typeString ? getType(typeString) : {}
     const name = (isProp) ? $(itemElement).attr(`${PROP}`) : type
+    const { value, attr } = getPropValue(itemElement, TYPE, PROP)
 
     let relativeIndexPosition = 0
     let parentSelector = ''
@@ -100,7 +111,7 @@ export default function (html, specName, config = {}) {
       }
       relativeIndexPosition = items[parentTypeId].properties[name].length
       items[parentTypeId].properties[name].push(id)
-      parentSelector = items[parentTypeId].cssSelector + ' '
+      parentSelector = items[parentTypeId].selector.select + ' '
     }
 
     const relativeSelector = ((isProp)
@@ -113,10 +124,15 @@ export default function (html, specName, config = {}) {
       context: vocab || context,
       type,
       name,
-      value: getPropValue(itemElement, TYPE, PROP),
+      value,
       properties: {},
       parentTypeId,
-      cssSelector,
+      selector: {
+        select: cssSelector,
+        extract: {
+          attr
+        }
+      },
       ...items[id]
     }, (val) => !_.isUndefined(val))
   })
