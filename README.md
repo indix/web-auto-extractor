@@ -1,6 +1,7 @@
-# Web Auto Extractor [![Build Status](https://travis-ci.org/ind9/web-auto-extractor.svg?branch=master)](https://travis-ci.org/ind9/web-auto-extractor)
+# Web Auto Extractor
+[![Build Status](https://travis-ci.org/ind9/web-auto-extractor.svg?branch=master)](https://travis-ci.org/ind9/web-auto-extractor)
 
-Automatically extracts semantically structured information from a HTML webpage.
+Automatically extracts semantically structured information from any HTML webpage.
 
 Supported formats:-
 - Formats that support Schema.org vocabularies:-
@@ -15,12 +16,12 @@ Supported formats:-
 ## Example
 Sample code:-
 ```
-import parse from 'web-auto-extractor' // You can use any name in place of "parse"
+import parseWeb from 'web-auto-extractor'
 import fs from 'fs'
 
 const html = fs.readFileSync('test/resources/microdata.html', { encoding: 'utf-8' })
 
-const data = parse(html)
+const data = parseWeb(html)
 console.log(data.micro)     // Microdata Result
 //console.log(data.rdfa)    // RDFa-Lite Result
 //console.log(data.jsonld)  // JSON-LD Result
@@ -34,7 +35,7 @@ var parse = require('web-auto-extractor').default
 
 Output:-
 
-The output will be in a JSON in JSON-LD format
+The output will be a JSON in JSON-LD format
 
 ```
 [
@@ -72,14 +73,14 @@ The output will be in a JSON in JSON-LD format
 
 ## Configuration
 
-You can also pass in a config object to the function like:-
+You can also pass in a configuration object to the function
 ```
 const config = {
   normalize: false,
   withSelector: true
 }
 
-const data = parse(html, config)
+const data = parseWeb(html, config)
 ```
 ### Supported options:-
 
@@ -88,7 +89,11 @@ default: false
 
 Set to true if you'd want the result to include the `selector` object.
 
-The `selector` object provides you with the css-selector (`select`) along with the property from with the `value` object was extracted from (`extract`).
+The `selector` object provides you with two fields:-
+
+- `select`: The css-selector of the HTMLElement
+- `extract`: The HTMLElement property from which the `value` object was extracted from.
+
 ```
 [
     {
@@ -116,12 +121,13 @@ The `selector` object provides you with the css-selector (`select`) along with t
     ...
 ]
 ```
+
 #### normalize
 default: true
 
-Set to false if you want to work with the intermediate non-normalized result.
+Set to false if you'd want to work with the intermediate non-normalized result.
 
-See [relevant test output](https://github.com/ind9/web-auto-extractor/blob/master/test/resources/nonNormalizedResult.json)
+See [relevant output](https://github.com/ind9/web-auto-extractor/blob/master/test/resources/nonNormalizedResult.json) in test case.
 ```
 //The keys are the md5 hash of the respective HTML element
 {
@@ -161,3 +167,5 @@ See [relevant test output](https://github.com/ind9/web-auto-extractor/blob/maste
   ...
 }
 ```
+
+[See test cases](https://github.com/ind9/web-auto-extractor/blob/master/test/test.js) for more examples.
