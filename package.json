@@ -2,7 +2,7 @@
   "name": "parser-bot",
   "version": "0.1.0",
   "description": "Helper bot for extracting fields from a webpage",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "babel src -d dist",
     "test": "mocha --recursive --compilers js:babel-register",

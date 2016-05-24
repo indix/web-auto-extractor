@@ -1,7 +1,7 @@
 import $ from 'cheerio'
-import { parseMetaTags } from './metatag-parser'
-import parseMicroRdfa from './micro-rdfa-parser'
-import parseJsonld from './jsonld-parser'
+import { parseMetaTags } from './parsers/metatag-parser'
+import parseMicroRdfa from './parsers/micro-rdfa-parser'
+import parseJsonld from './parsers/jsonld-parser'
 
 export default function (html, config = {}) {
   const $html = $.load(html, { xmlMode: true })

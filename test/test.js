@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import fs from 'fs'
 import { assert } from 'chai'
-import parse from '../src/parsers'
+import parse from '../src'
 import parseMicroRdfa from '../src/parsers/micro-rdfa-parser'
 import parseJsonld from '../src/parsers/jsonld-parser'
 
