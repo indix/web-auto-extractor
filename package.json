@@ -8,7 +8,7 @@
     "test": "mocha --recursive --compilers js:babel-register",
     "lint": "standard",
     "dev": "nodemon --exec npm run lint",
-    "prepublish": "npm run build"
+    "prepublish": "npm run lint && npm run test && npm run build"
   },
   "license": "MIT",
   "dependencies": {
