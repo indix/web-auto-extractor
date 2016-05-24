@@ -1,5 +1,5 @@
 {
-  "name": "parser-bot",
+  "name": "web-auto-extractor",
   "version": "0.1.0",
   "description": "Helper bot for extracting fields from a webpage",
   "main": "dist/index.js",
@@ -7,9 +7,9 @@
     "build": "babel src -d dist",
     "test": "mocha --recursive --compilers js:babel-register",
     "lint": "standard",
-    "dev": "nodemon --exec npm run lint"
+    "dev": "nodemon --exec npm run lint",
+    "prepublish": "npm run build"
   },
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^0.20.0",
