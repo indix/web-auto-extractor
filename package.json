@@ -1,7 +1,7 @@
 {
   "name": "web-auto-extractor",
   "version": "0.1.0",
-  "description": "Helper bot for extracting fields from a webpage",
+  "description": "Automatically extracts structured information from webpages",
   "main": "dist/index.js",
   "scripts": {
     "build": "babel src -d dist",
@@ -10,7 +10,7 @@
     "dev": "nodemon --exec npm run lint",
     "prepublish": "npm run build"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "cheerio": "^0.20.0",
     "lodash": "^4.12.0",
@@ -30,5 +30,12 @@
   },
   "standard": {
     "parser": "babel-eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ind9/web-auto-extractor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ind9/web-auto-extractor/issues"
   }
 }
