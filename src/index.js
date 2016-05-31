@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import $ from 'cheerio'
 import { parseMetaTags } from './parsers/metatag-parser'
 import parseMicroRdfa from './parsers/micro-rdfa-parser'
