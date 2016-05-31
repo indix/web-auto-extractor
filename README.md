@@ -8,25 +8,31 @@ Supported formats:-
   - Microdata
   - RDFa-lite
   - JSON-LD
-- meta tags
+  - meta tags
+
+**[Demo](https://tonicdev.com/npm/web-auto-extractor)** it on tonicdev
 
 ## Installation
 `npm install web-auto-extractor`
+
 
 ## Example
 Sample code:-
 ```
 import parseWeb from 'web-auto-extractor'
-import fs from 'fs'
+import request from 'request'
 
-const html = fs.readFileSync('test/resources/microdata.html', { encoding: 'utf-8' })
+const pageUrl = 'http://southernafricatravel.com/'
 
-const data = parseWeb(html)
-console.log(data.micro)     // Microdata Result
-//console.log(data.rdfa)    // RDFa-Lite Result
-//console.log(data.jsonld)  // JSON-LD Result
-//console.log(data.meta)    // Meta tags Result
+request(pageUrl, function (error, response, body) {
+  const data = parseWeb(body)
+  console.log(data.micro)     // Microdata Result
+  //console.log(data.rdfa)    // RDFa-Lite Result
+  //console.log(data.jsonld)  // JSON-LD Result
+  //console.log(data.meta)    // Meta tags Result
+})
 ```
+
 CommonJS import style:-
 
 ```
