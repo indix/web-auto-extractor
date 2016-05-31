@@ -3,5 +3,5 @@ var request = require('request')
 var pageUrl = 'http://southernafricatravel.com/'
 
 request(pageUrl, function (error, response, body) {
-    console.log(webParse(body))
+  console.log(webParse(body))
 })
