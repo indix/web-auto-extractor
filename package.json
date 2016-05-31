@@ -10,6 +10,9 @@
     "dev": "nodemon --exec npm run lint",
     "prepublish": "npm run lint && npm run test && npm run build"
   },
+  "engines" : {
+    "node": ">=4.4" 
+  },
   "license": "MIT",
   "dependencies": {
     "cheerio": "^0.20.0",
