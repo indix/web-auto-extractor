@@ -50,5 +50,6 @@
   },
   "bugs": {
     "url": "https://github.com/ind9/web-auto-extractor/issues"
-  }
+  },
+  "tonicExampleFilename": "tonicExample.js" 
 }
