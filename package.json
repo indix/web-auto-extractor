@@ -1,6 +1,6 @@
 {
   "name": "web-auto-extractor",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Automatically extracts structured information from webpages",
   "main": "dist/index.js",
   "scripts": {
@@ -51,5 +51,5 @@
   "bugs": {
     "url": "https://github.com/ind9/web-auto-extractor/issues"
   },
-  "tonicExampleFilename": "tonicExample.js" 
+  "tonicExampleFilename": "tonicExample.js"
 }
