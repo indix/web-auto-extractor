@@ -1,6 +1,6 @@
 {
   "name": "web-auto-extractor",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Automatically extracts structured information from webpages",
   "main": "dist/index.js",
   "scripts": {
@@ -10,8 +10,8 @@
     "dev": "nodemon --exec npm run lint",
     "prepublish": "npm run lint && npm run test && npm run build"
   },
-  "engines" : {
-    "node": ">=4.4" 
+  "engines": {
+    "node": ">=4.4"
   },
   "license": "MIT",
   "dependencies": {
