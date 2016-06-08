@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import fs from 'fs'
 import { assert } from 'chai'
-import parse from '../src'
+import { createWebAutoExtractor } from '../src'
 import parseMicroRdfa from '../src/parsers/micro-rdfa-parser'
 import parseJsonld from '../src/parsers/jsonld-parser'
 
@@ -32,12 +32,12 @@ describe('Web Auto Extractor for NORMALIZED output', function () {
   })
 
   it('should find all supported structured information', function () {
-    const data = parse(mixedHTML)
+    const data = createWebAutoExtractor.init(mixedHTML).parse()
     assert.deepEqual(data, normalizedResult)
   })
 
   it('should find all elements with selector', function () {
-    const data = parse(mixedHTML, {
+    const data = createWebAutoExtractor.init(mixedHTML).parse(null, {
       withSelector: true
     })
     assert.deepEqual(data, normalizedWithSelector)
@@ -60,7 +60,7 @@ describe('Web Auto Extractor for NON-NORMALIZED output', function () {
   })
 
   it('should find all elements with selector', function () {
-    const data = parse(mixedHTML, {
+    const data = createWebAutoExtractor.init(mixedHTML).parse(null, {
       normalize: false,
       withSelector: true
     })

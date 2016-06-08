@@ -139,5 +139,8 @@ export default function (html, specName, config = {}) {
   if (config.normalize) {
     return normalize(items, config.withSelector)
   }
-  return items
+  return {
+    items,
+    normalize(): return normalize(items, config.withSelector)
+  }
 }

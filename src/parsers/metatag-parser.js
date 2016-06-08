@@ -4,7 +4,7 @@ const defaultConfig = {
   withSelector: false
 }
 
-export const parseMetaTags = function ($, config) {
+export default function ($, config) {
   _.defaults(config, defaultConfig)
   let parsedMetaItems = []
   $('meta').each((index, elem) => {
