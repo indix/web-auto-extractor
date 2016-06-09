@@ -1,9 +1,7 @@
 /* eslint-env mocha */
 import fs from 'fs'
 import { assert } from 'chai'
-import { createWebAutoExtractor } from '../src'
-import parseMicroRdfa from '../src/parsers/micro-rdfa-parser'
-import parseJsonld from '../src/parsers/jsonld-parser'
+import WAE from '../src'
 
 const fileReader = (fileName) => fs.readFileSync(fileName, { encoding: 'utf-8' })
 const normalizedResult = JSON.parse(fileReader('test/resources/normalizedResult.json'))
@@ -17,53 +15,48 @@ const mixedHTML = fileReader('test/resources/mixed.html')
 
 describe('Web Auto Extractor for NORMALIZED output', function () {
   it('should find all elements with microdata', function () {
-    const data = parseMicroRdfa(microdataHTML, 'micro')
+    const data = WAE.init(microdataHTML).parseMicrodata().normalize()
     assert.deepEqual(data, normalizedResult.micro)
   })
 
   it('should find all elements with rdfa', function () {
-    const data = parseMicroRdfa(rdfaHTML, 'rdfa')
+    const data = WAE.init(rdfaHTML).parseRdfa().normalize()
     assert.deepEqual(data, normalizedResult.rdfa)
   })
 
   it('should find embedded json-ld', function () {
-    const data = parseJsonld(jsonldHTML)
+    const data = WAE.init(jsonldHTML).parseJsonld()
     assert.deepEqual(data, normalizedResult.jsonld)
   })
 
   it('should find all supported structured information', function () {
-    const data = createWebAutoExtractor.init(mixedHTML).parse()
+    const data = WAE.init(mixedHTML).parse()
     assert.deepEqual(data, normalizedResult)
   })
 
-  it('should find all elements with selector', function () {
-    const data = createWebAutoExtractor.init(mixedHTML).parse(null, {
+  it('should find all microdata elements with selector', function () {
+    const data = WAE.init(microdataHTML).parseMicrodata({
       withSelector: true
-    })
-    assert.deepEqual(data, normalizedWithSelector)
+    }).normalize()
+    assert.deepEqual(data, normalizedWithSelector.micro)
   })
 })
 
 describe('Web Auto Extractor for NON-NORMALIZED output', function () {
   it('should find all elements with microdata', function () {
-    const data = parseMicroRdfa(microdataHTML, 'micro', {
-      normalize: false
-    })
+    const data = WAE.init(microdataHTML).parseMicrodata().items
     assert.deepEqual(data, nonNormalizedResult.micro)
   })
 
   it('should find all elements with rdfa', function () {
-    const data = parseMicroRdfa(rdfaHTML, 'rdfa', {
-      normalize: false
-    })
+    const data = WAE.init(rdfaHTML).parseRdfa().items
     assert.deepEqual(data, nonNormalizedResult.rdfa)
   })
 
-  it('should find all elements with selector', function () {
-    const data = createWebAutoExtractor.init(mixedHTML).parse(null, {
-      normalize: false,
+  it('should find all microdata elements with selector', function () {
+    const data = WAE.init(microdataHTML).parseMicrodata({
       withSelector: true
-    })
-    assert.deepEqual(data, nonNormalizedWithSelector)
+    }).items
+    assert.deepEqual(data, nonNormalizedWithSelector.micro)
   })
 })

@@ -4,45 +4,35 @@ import MicroRdfaParser from './parsers/micro-rdfa-parser'
 import JsonldParser from './parsers/jsonld-parser'
 
 const WAEParsedObject = {
-  findByName () {
-    
+  find () {
+
   }
 }
 
 const WAEObject = {
-  parseMicrodata (config) {
+  parseMicrodata (config = {}) {
     return Object.assign({}, WAEParsedObject, MicroRdfaParser(this.$html, 'micro', config))
   },
-  parseRdfa (config) {
+  parseRdfa (config = {}) {
     return Object.assign({}, WAEParsedObject, MicroRdfaParser(this.$html, 'rdfa', config))
   },
-  parseJsonld (config) {
+  parseJsonld (config = {}) {
     return JsonldParser(this.$html, config)
   },
-  parseMetaTags (config) {
-    return MetaTagsParser(config)
+  parseMetaTags (config = {}) {
+    return MetaTagsParser(this.$html, config)
   },
-  parse (type, config = {}) {
-    switch (type) {
-      case 'meta':
-        return parseMetaTags(this.$html, config)
-      case 'micro':
-      case 'rdfa':
-        return parseMicroRdfa(this.$html, type, config)
-      case 'jsonld':
-        return parseJsonld(this.$html, config)
-      default:
-        return {
-          meta: this.parseMetaTags(config),
-          micro: this.parseMicrodata(config),
-          rdfa: this.parseRdfa(config),
-          jsonld: this.parseJsonld(config)
-        }
+  parse () {
+    return {
+      meta: this.parseMetaTags(),
+      micro: this.parseMicrodata().normalize(),
+      rdfa: this.parseRdfa().normalize(),
+      jsonld: this.parseJsonld()
     }
   }
 }
 
-export const createWAEObject = {
+export default {
   init (html) {
     const $html = $.load(html, { xmlMode: true })
     return Object.assign({}, WAEObject, {

@@ -4,7 +4,6 @@ import { getCheerioObject } from './utils'
 import _ from 'lodash'
 
 const defaultConfig = {
-  normalize: true,
   withSelector: false
 }
 
@@ -136,11 +135,10 @@ export default function (html, specName, config = {}) {
     }, (val) => !_.isUndefined(val))
   })
 
-  if (config.normalize) {
-    return normalize(items, config.withSelector)
-  }
   return {
     items,
-    normalize(): return normalize(items, config.withSelector)
+    normalize: () => {
+      return normalize(items, config.withSelector)
+    }
   }
 }

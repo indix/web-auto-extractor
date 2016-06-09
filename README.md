@@ -19,13 +19,13 @@ Supported formats:-
 ## Example
 Sample code:-
 ```
-import parseWeb from 'web-auto-extractor'
+import WAE from 'web-auto-extractor'
 import request from 'request'
 
 const pageUrl = 'http://southernafricatravel.com/'
 
 request(pageUrl, function (error, response, body) {
-  const data = parseWeb(body)
+  const data = WAE.init(body).parseAll()
   console.log(data.micro)     // Microdata Result
   //console.log(data.rdfa)    // RDFa-Lite Result
   //console.log(data.jsonld)  // JSON-LD Result
@@ -36,7 +36,7 @@ request(pageUrl, function (error, response, body) {
 CommonJS import style:-
 
 ```
-var parse = require('web-auto-extractor').default
+var WAE = require('web-auto-extractor').default
 ```
 
 Output:-
@@ -86,7 +86,7 @@ const config = {
   withSelector: true
 }
 
-const data = parseWeb(html, config)
+const data = WAE.init(html).parseAll(config)
 ```
 ### Supported options:-
 
@@ -129,7 +129,7 @@ The `selector` object provides you with two fields:-
 ```
 
 #### normalize
-default: true
+default: false
 
 Set to false if you'd want to work with the intermediate non-normalized result.
 
