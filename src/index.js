@@ -24,7 +24,7 @@ const WAEObject = {
   },
   parse () {
     return {
-      meta: this.parseMetaTags(),
+      meta: this.parseMetaTags().normalize(),
       micro: this.parseMicrodata().normalize(),
       rdfa: this.parseRdfa().normalize(),
       jsonld: this.parseJsonld()

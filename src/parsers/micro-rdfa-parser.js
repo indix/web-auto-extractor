@@ -27,7 +27,7 @@ function getPropValue (itemPropElement, TYPE, PROP) {
   }
 }
 
-function normalize (items, idList = []) {
+const normalize = (items, idList = []) => {
   if (idList.length === 0) {
     idList = Object.keys(items).filter(id =>
       items[id].parentTypeId === null)
@@ -54,7 +54,7 @@ function normalize (items, idList = []) {
   })
 }
 
-function getAttrNames (specName) {
+const getAttrNames = (specName) => {
   let TYPE, PROP
   if (specName.toLowerCase().startsWith('micro')) {
     TYPE = 'itemtype'
@@ -68,7 +68,7 @@ function getAttrNames (specName) {
   return { TYPE, PROP }
 }
 
-function getType (typeString) {
+const getType = (typeString) => {
   const match = (/(.*\/)(\w+)/g).exec(typeString)
   return {
     context: match && match[1] ? match[1] : undefined,
@@ -76,7 +76,7 @@ function getType (typeString) {
   }
 }
 
-export default function (html, specName) {
+export default (html, specName) => {
   const { TYPE, PROP } = getAttrNames(specName)
   const $html = getCheerioObject(html)
 

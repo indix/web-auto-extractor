@@ -1,26 +1,46 @@
 import _ from 'lodash'
 
-const normalize = () => {
-
+const normalize = (items) => {
+  let normalizedItems = {}
+  items.map(item => {
+    const { name, value } = item
+    if (normalizedItems[name]) {
+      if (_.isArray(normalizedItems[name])) {
+        normalizedItems[name].push(value)
+      } else {
+        normalizedItems[name] = [
+          normalizedItems[name],
+          value
+        ]
+      }
+    } else {
+      normalizedItems[name] = value
+    }
+  })
+  return normalizedItems
 }
 
-export default function ($, config) {
-  _.defaults(config, defaultConfig)
+export default ($) => {
   let parsedMetaItems = []
   $('meta').each((index, elem) => {
     const nameKey = _.find(_.keys(elem.attribs), attr => attr !== 'content')
     const name = elem.attribs[nameKey]
     const value = elem.attribs['content']
-    parsedMetaItems.push(_.pickBy({
+    parsedMetaItems.push({
       name,
       value,
-      selector: config.withSelector ? {
+      selector: {
         select: `meta[${nameKey}="${name}"]`,
         extract: {
           attr: 'content'
         }
-      } : undefined
-    }, (val) => !_.isUndefined(val)))
+      }
+    })
   })
-  return parsedMetaItems
+  return {
+    items: parsedMetaItems,
+    normalize: () => {
+      return normalize(parsedMetaItems)
+    }
+  }
 }
