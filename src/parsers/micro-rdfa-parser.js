@@ -3,10 +3,6 @@ import md5 from 'md5'
 import { getCheerioObject } from './utils'
 import _ from 'lodash'
 
-const defaultConfig = {
-  withSelector: false
-}
-
 function getPropValue (itemPropElement, TYPE, PROP) {
   let value, attr
   if ($(itemPropElement).attr(`${TYPE}`)) {
@@ -31,19 +27,19 @@ function getPropValue (itemPropElement, TYPE, PROP) {
   }
 }
 
-export function normalize (items, withSelector = false, idList = []) {
+function normalize (items, idList = []) {
   if (idList.length === 0) {
     idList = Object.keys(items).filter(id =>
       items[id].parentTypeId === null)
   }
   return idList.map(id => {
-    const { context, type, value, properties, selector } = items[id]
+    const { context, type, value, properties } = items[id]
     if (!type) {
-      return withSelector ? { value, selector } : value
+      return value
     }
     let normalizedProperties = {}
     Object.keys(properties).map(key => {
-      let propValue = normalize(items, withSelector, properties[key])
+      let propValue = normalize(items, properties[key])
       if (propValue.length === 1) {
         normalizedProperties[key] = propValue[0]
       } else if (propValue.length > 1) {
@@ -80,8 +76,7 @@ function getType (typeString) {
   }
 }
 
-export default function (html, specName, config = {}) {
-  _.defaults(config, defaultConfig)
+export default function (html, specName) {
   const { TYPE, PROP } = getAttrNames(specName)
   const $html = getCheerioObject(html)
 
@@ -125,12 +120,12 @@ export default function (html, specName, config = {}) {
       value,
       properties: {},
       parentTypeId,
-      selector: config.withSelector ? {
+      selector: {
         select: processCssSelector(),
         extract: {
           attr
         }
-      } : undefined,
+      },
       ...items[id]
     }, (val) => !_.isUndefined(val))
   })
@@ -138,7 +133,7 @@ export default function (html, specName, config = {}) {
   return {
     items,
     normalize: () => {
-      return normalize(items, config.withSelector)
+      return normalize(items)
     }
   }
 }

@@ -10,17 +10,17 @@ const WAEParsedObject = {
 }
 
 const WAEObject = {
-  parseMicrodata (config = {}) {
-    return Object.assign({}, WAEParsedObject, MicroRdfaParser(this.$html, 'micro', config))
+  parseMicrodata () {
+    return Object.assign({}, WAEParsedObject, MicroRdfaParser(this.$html, 'micro'))
   },
-  parseRdfa (config = {}) {
-    return Object.assign({}, WAEParsedObject, MicroRdfaParser(this.$html, 'rdfa', config))
+  parseRdfa () {
+    return Object.assign({}, WAEParsedObject, MicroRdfaParser(this.$html, 'rdfa'))
   },
-  parseJsonld (config = {}) {
-    return JsonldParser(this.$html, config)
+  parseJsonld () {
+    return JsonldParser(this.$html)
   },
-  parseMetaTags (config = {}) {
-    return MetaTagsParser(this.$html, config)
+  parseMetaTags () {
+    return Object.assign({}, WAEParsedObject, MetaTagsParser(this.$html))
   },
   parse () {
     return {

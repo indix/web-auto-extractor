@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
-const defaultConfig = {
-  withSelector: false
+const normalize = () => {
+
 }
 
 export default function ($, config) {

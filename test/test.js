@@ -34,29 +34,29 @@ describe('Web Auto Extractor for NORMALIZED output', function () {
     assert.deepEqual(data, normalizedResult)
   })
 
-  it('should find all microdata elements with selector', function () {
-    const data = WAE.init(microdataHTML).parseMicrodata({
-      withSelector: true
-    }).normalize()
-    assert.deepEqual(data, normalizedWithSelector.micro)
-  })
+  // it('should find all microdata elements with selector', function () {
+  //   const data = WAE.init(microdataHTML).parseMicrodata({
+  //     withSelector: true
+  //   }).normalize()
+  //   assert.deepEqual(data, normalizedWithSelector.micro)
+  // })
 })
 
 describe('Web Auto Extractor for NON-NORMALIZED output', function () {
   it('should find all elements with microdata', function () {
     const data = WAE.init(microdataHTML).parseMicrodata().items
-    assert.deepEqual(data, nonNormalizedResult.micro)
+    assert.deepEqual(data, nonNormalizedResultWithSelector.micro)
   })
 
   it('should find all elements with rdfa', function () {
     const data = WAE.init(rdfaHTML).parseRdfa().items
-    assert.deepEqual(data, nonNormalizedResult.rdfa)
+    assert.deepEqual(data, nonNormalizedResultWithSelector.rdfa)
   })
 
-  it('should find all microdata elements with selector', function () {
-    const data = WAE.init(microdataHTML).parseMicrodata({
-      withSelector: true
-    }).items
-    assert.deepEqual(data, nonNormalizedWithSelector.micro)
-  })
+  // it('should find all microdata elements with selector', function () {
+  //   const data = WAE.init(microdataHTML).parseMicrodata({
+  //     withSelector: true
+  //   }).items
+  //   assert.deepEqual(data, nonNormalizedWithSelector.micro)
+  // })
 })
