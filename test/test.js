@@ -5,7 +5,7 @@ import WAE from '../src'
 
 const fileReader = (fileName) => fs.readFileSync(fileName, { encoding: 'utf-8' })
 const normalizedResult = JSON.parse(fileReader('test/resources/normalizedResult.json'))
-const nonNormalizedResult = JSON.parse(fileReader('test/resources/nonNormalizedWithSelector.json'))
+const nonNormalizedResult = JSON.parse(fileReader('test/resources/nonNormalized.json'))
 const microdataHTML = fileReader('test/resources/microdata.html')
 const rdfaHTML = fileReader('test/resources/rdfa-lite.html')
 const jsonldHTML = fileReader('test/resources/json-ld.html')
