@@ -13,7 +13,7 @@ Supported formats:-
 **[Demo](https://tonicdev.com/npm/web-auto-extractor)** it on tonicdev
 
 ## Introduction
-Parse any sematically structured HTML
+Parse any sematically structured HTML and query on it.
 ```js
 import WAE from 'web-auto-extractor'
 import request from 'request'
@@ -45,6 +45,7 @@ const wae = WAE.init('<div itemtype="Product">...</div>')
 Each WAEObject comes with the following set of methods
 
 ### WAEObject Methods
+*NOTE: The result of these functions are **cached**, so multiple calls to them shouldn't affect performance.*
 
 #### .parse()
 Finds all supported semantically structured information on the HTML in normalized format.
