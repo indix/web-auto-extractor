@@ -8,7 +8,7 @@ Supported formats:-
   - Microdata
   - RDFa-lite
   - JSON-LD
-  - meta tags
+- Miscellaneous meta tags
 
 **[Demo](https://tonicdev.com/npm/web-auto-extractor)** it on tonicdev
 
@@ -20,10 +20,19 @@ import request from 'request'
 
 const pageUrl = 'http://southernafricatravel.com/'
 
-request(pageUrl, function (error, response, html) {
-  const wae = WAE.init(html)
-  wae.parse()
-}
+request(pageUrl, function (error, response, body) {
+  let wae = WAE.init(body)
+  // console.log(wae.parse())
+
+  // If the page uses microdata
+  let waeMicrodata = wae.parseMicrodata()
+  // See API for more options
+  // console.log(waeMicrodata.data())
+
+  // You can query on the parsed result to look for properties marked up by the page
+  let images = waeMicrodata.find('telephone')
+  // console.log(images)
+})
 ```
 
 #### CommonJS import style
@@ -72,6 +81,6 @@ Gets the normalized result of the parsed format.
 Gets the unnormalized flattened result of the parsed format which includes meta information relating to the parsed properties.
 
 #### .find(propName)
-Returns a list of elements from `.data()` that corresponds to the property with the name `propName`
+Returns a list of elements from `.data()` that corresponds to the property with the name `[propName]`.  
 
 [See test cases](https://github.com/ind9/web-auto-extractor/blob/master/test/test.js) for more examples.
