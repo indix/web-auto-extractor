@@ -44,3 +44,25 @@ describe('Web Auto Extractor for NON-NORMALIZED output', function () {
     assert.deepEqual(data, nonNormalizedResult.rdfa)
   })
 })
+
+describe('WAEParserObject', function () {
+  it('should use find() to find properties', function () {
+    const expectedResult = [
+      {
+        name: 'image',
+        value: 'anvil_executive.jpg',
+        properties: {},
+        parentTypeId: 'ed08397308d9c31da5e50485f2dfe184',
+        selector: {
+          select: '[itemtype="http://schema.org/Product"]:eq(0) [itemprop="image"]:eq(1)',
+          extract: {
+            attr: 'src'
+          }
+        }
+      }
+    ]
+    const waeMicro = WAE.init(microdataHTML).parseMicrodata()
+    const actualResult = waeMicro.find('image')
+    assert.deepEqual(expectedResult, actualResult)
+  })
+})

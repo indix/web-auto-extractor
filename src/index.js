@@ -4,9 +4,20 @@ import MicroRdfaParser from './parsers/micro-rdfa-parser'
 import JsonldParser from './parsers/jsonld-parser'
 
 const WAEParserObject = () => {
+  let result = {}
   return {
-    find () {
-
+    find (propName) {
+      if (!result[propName]) {
+        result[propName] = []
+        const items = this.unnormalizedData()
+        Object.keys(items).forEach(key => {
+          const item = items[key]
+          if (item.name === propName) {
+            result[propName].push(item)
+          }
+        })
+      }
+      return result[propName]
     }
   }
 }

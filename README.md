@@ -12,7 +12,7 @@ Supported formats:-
 
 **[Demo](https://tonicdev.com/npm/web-auto-extractor)** it on tonicdev
 
-### Introduction
+## Introduction
 Parse any sematically structured HTML
 ```js
 import WAE from 'web-auto-extractor'
@@ -31,12 +31,12 @@ request(pageUrl, function (error, response, html) {
 var WAE = require('web-auto-extractor').default
 ```
 
-### Installation
+## Installation
 `npm install web-auto-extractor`
 
-### API
+## API
 
-#### Initializing
+### Initializing
 You would first need to load in the HTML to get a WAEObject
 
 ```js
@@ -44,32 +44,33 @@ const wae = WAE.init('<div itemtype="Product">...</div>')
 ```
 Each WAEObject comes with the following set of methods
 
-#### WAEObject Methods
+### WAEObject Methods
 
-##### .parse()
+#### .parse()
 Finds all supported semantically structured information on the HTML in normalized format.
 
-##### .parseMicrodata()
+#### .parseMicrodata()
 Finds all Microdata information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
-##### .parseRdfa()
+#### .parseRdfa()
 Finds all RDFa-Lite information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
-##### .parseJsonld()
+#### .parseJsonld()
 Finds all JSON-LD information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
-##### .parseMetaTags()
+#### .parseMetaTags()
 Finds all meta tags information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
-#### WAEParserObject Attributes
+### WAEParserObject Attributes
+*NOTE: The result of these functions are **cached**, so multiple calls to them shouldn't affect performance.*
 
-##### .data()
-Gets the normalized flattened result of the parsed format.
+#### .data()
+Gets the normalized result of the parsed format.
 
-##### .unnormalizedData()
+#### .unnormalizedData()
 Gets the unnormalized flattened result of the parsed format which includes meta information relating to the parsed properties.
 
-##### .find(propName) - *TODO*
-Returns a list of elements from `.items` that corresponds to the property with the name `propName`
+#### .find(propName)
+Returns a list of elements from `.data()` that corresponds to the property with the name `propName`
 
 [See test cases](https://github.com/ind9/web-auto-extractor/blob/master/test/test.js) for more examples.

@@ -130,12 +130,18 @@ export default (html, specName) => {
     }, (val) => !_.isUndefined(val))
   })
 
-  return {
-    data: () => {
-      return normalize(items)
-    },
-    unnormalizedData: () => {
-      return items
+  return (function () {
+    let cachedData = null
+    return {
+      data: () => {
+        if (!cachedData) {
+          cachedData = normalize(items)
+        }
+        return cachedData
+      },
+      unnormalizedData: () => {
+        return items
+      }
     }
-  }
+  })()
 }
