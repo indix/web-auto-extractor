@@ -131,9 +131,11 @@ export default (html, specName) => {
   })
 
   return {
-    items,
-    normalize: () => {
+    data: () => {
       return normalize(items)
+    },
+    unnormalizedData: () => {
+      return items
     }
   }
 }

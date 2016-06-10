@@ -38,9 +38,11 @@ export default ($) => {
     })
   })
   return {
-    items: parsedMetaItems,
-    normalize: () => {
+    data: () => {
       return normalize(parsedMetaItems)
+    },
+    unnormalizedData: () => {
+      return parsedMetaItems
     }
   }
 }

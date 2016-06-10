@@ -13,17 +13,17 @@ const mixedHTML = fileReader('test/resources/mixed.html')
 
 describe('Web Auto Extractor for NORMALIZED output', function () {
   it('should find all elements with microdata', function () {
-    const data = WAE.init(microdataHTML).parseMicrodata().normalize()
+    const data = WAE.init(microdataHTML).parseMicrodata().data()
     assert.deepEqual(data, normalizedResult.micro)
   })
 
   it('should find all elements with rdfa', function () {
-    const data = WAE.init(rdfaHTML).parseRdfa().normalize()
+    const data = WAE.init(rdfaHTML).parseRdfa().data()
     assert.deepEqual(data, normalizedResult.rdfa)
   })
 
   it('should find embedded json-ld', function () {
-    const data = WAE.init(jsonldHTML).parseJsonld()
+    const data = WAE.init(jsonldHTML).parseJsonld().data()
     assert.deepEqual(data, normalizedResult.jsonld)
   })
 
@@ -35,12 +35,12 @@ describe('Web Auto Extractor for NORMALIZED output', function () {
 
 describe('Web Auto Extractor for NON-NORMALIZED output', function () {
   it('should find all elements with microdata', function () {
-    const data = WAE.init(microdataHTML).parseMicrodata().items
+    const data = WAE.init(microdataHTML).parseMicrodata().unnormalizedData()
     assert.deepEqual(data, nonNormalizedResult.micro)
   })
 
   it('should find all elements with rdfa', function () {
-    const data = WAE.init(rdfaHTML).parseRdfa().items
+    const data = WAE.init(rdfaHTML).parseRdfa().unnormalizedData()
     assert.deepEqual(data, nonNormalizedResult.rdfa)
   })
 })

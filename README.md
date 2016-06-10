@@ -49,28 +49,27 @@ Each WAEObject comes with the following set of methods
 ##### .parse()
 Finds all supported semantically structured information on the HTML in normalized format.
 
-
 ##### .parseMicrodata()
-Finds all Microdata information on the page and returns it as a [WAEParsedObject](#waeparsedobject-attributes).
+Finds all Microdata information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
 ##### .parseRdfa()
-Finds all RDFa-Lite information on the page and returns it as a [WAEParsedObject](#waeparsedobject-attributes).
+Finds all RDFa-Lite information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
 ##### .parseJsonld()
-Finds all JSON-LD information on the page
+Finds all JSON-LD information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
 ##### .parseMetaTags()
-Finds all meta tags
+Finds all meta tags information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
-#### WAEParsedObject Attributes
+#### WAEParserObject Attributes
 
-##### .items
-Gets the non-normalized flattened result of the parsed format.
+##### .data()
+Gets the normalized flattened result of the parsed format.
 
-##### .normalize()
-Gets the normalized unflattened result of the parsed format.
+##### .unnormalizedData()
+Gets the unnormalized flattened result of the parsed format which includes meta information relating to the parsed properties.
 
-##### .find(propName)
+##### .find(propName) - *TODO*
 Returns a list of elements from `.items` that corresponds to the property with the name `propName`
 
 [See test cases](https://github.com/ind9/web-auto-extractor/blob/master/test/test.js) for more examples.
