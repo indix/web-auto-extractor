@@ -13,5 +13,12 @@ export default function (html, config = {}) {
     }
   })
 
-  return jsonldData
+  return {
+    data: () => {
+      return jsonldData
+    },
+    unnormalizedData: () => {
+      return jsonldData
+    }
+  }
 }

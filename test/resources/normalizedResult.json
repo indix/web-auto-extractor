@@ -1,14 +1,7 @@
 {
-  "meta": [
-    {
-      "name": "priceCurrency",
-      "value": "USD"
-    },
-    {
-      "name": "priceCurrency",
-      "value": "USD"
-    }
-  ],
+  "meta": {
+    "priceCurrency": [ "USD", "USD" ]
+  },
   "micro": [
     {
       "@context": "http://schema.org/",

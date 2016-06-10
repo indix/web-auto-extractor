@@ -8,170 +8,79 @@ Supported formats:-
   - Microdata
   - RDFa-lite
   - JSON-LD
-  - meta tags
+- Miscellaneous meta tags
 
 **[Demo](https://tonicdev.com/npm/web-auto-extractor)** it on tonicdev
 
-## Installation
-`npm install web-auto-extractor`
-
-
-## Example
-Sample code:-
-```
-import parseWeb from 'web-auto-extractor'
+## Introduction
+Parse any sematically structured HTML and query on it.
+```js
+import WAE from 'web-auto-extractor'
 import request from 'request'
 
 const pageUrl = 'http://southernafricatravel.com/'
 
 request(pageUrl, function (error, response, body) {
-  const data = parseWeb(body)
-  console.log(data.micro)     // Microdata Result
-  //console.log(data.rdfa)    // RDFa-Lite Result
-  //console.log(data.jsonld)  // JSON-LD Result
-  //console.log(data.meta)    // Meta tags Result
+  let wae = WAE.init(body)
+  // console.log(wae.parse())
+
+  // If the page uses microdata
+  let waeMicrodata = wae.parseMicrodata()
+  // See API for more options
+  // console.log(waeMicrodata.data())
+
+  // You can query on the parsed result to look for properties marked up by the page
+  let images = waeMicrodata.find('telephone')
+  // console.log(images)
 })
 ```
 
-CommonJS import style:-
-
-```
-var parse = require('web-auto-extractor').default
-```
-
-Output:-
-
-The output will be a JSON in JSON-LD format
-
-```
-[
-  {
-    "@context": "http://schema.org/",
-    "@type": "Product",
-    "brand": "ACME",
-    "name": "Executive Anvil",
-    "image": "anvil_executive.jpg",
-    "description": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
-    "mpn": "925872",
-    "aggregateRating": {
-      "@context": "http://schema.org/",
-      "@type": "AggregateRating",
-      "ratingValue": "4.4",
-      "reviewCount": "89"
-    },
-    "offers": {
-      "@context": "http://schema.org/",
-      "@type": "Offer",
-      "priceCurrency": "USD",
-      "price": "119.99",
-      "priceValidUntil": "5 November!",
-      "seller": {
-        "@context": "http://schema.org/",
-        "@type": "Organization",
-        "name": "Executive Objects"
-      },
-      "itemCondition": "http://schema.org/UsedCondition",
-      "availability": "http://schema.org/InStock"
-    }
-  }
-]
+#### CommonJS import style
+```js
+var WAE = require('web-auto-extractor').default
 ```
 
-## Configuration
+## Installation
+`npm install web-auto-extractor`
 
-You can also pass in a configuration object to the function
+## API
+
+### Initializing
+You would first need to load in the HTML to get a WAEObject
+
+```js
+const wae = WAE.init('<div itemtype="Product">...</div>')
 ```
-const config = {
-  normalize: false,
-  withSelector: true
-}
+Each WAEObject comes with the following set of methods
 
-const data = parseWeb(html, config)
-```
-### Supported options:-
+### WAEObject Methods
+*NOTE: The result of these functions are **cached**, so multiple calls to them shouldn't affect performance.*
 
-#### withSelector
-default: false
+#### .parse()
+Finds all supported semantically structured information on the HTML in normalized format.
 
-Set to true if you'd want the result to include the `selector` object.
+#### .parseMicrodata()
+Finds all Microdata information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
-The `selector` object provides you with two fields:-
+#### .parseRdfa()
+Finds all RDFa-Lite information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
-- `select`: The css-selector of the HTMLElement
-- `extract`: The HTMLElement property from which the `value` object was extracted from.
+#### .parseJsonld()
+Finds all JSON-LD information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
-```
-[
-    {
-      "@context": "http://schema.org/",
-      "@type": "Product",
-      "image": {
-        "value": "anvil_executive.jpg",
-        "selector": {
-          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"image\"]:eq(1)",
-          "extract": {
-            "attr": "src"
-          }
-        }
-      },
-      "name": {
-        "value": "Executive Anvil",
-        "selector": {
-          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"name\"]:eq(1)",
-          "extract": {
-            "attr": "@text"
-          }
-        }
-      },
-    ...
-    ...
-]
-```
+#### .parseMetaTags()
+Finds all meta tags information on the page and returns it as a [WAEParserObject](#waeparserobject-attributes).
 
-#### normalize
-default: true
+### WAEParserObject Attributes
+*NOTE: The result of these functions are **cached**, so multiple calls to them shouldn't affect performance.*
 
-Set to false if you'd want to work with the intermediate non-normalized result.
+#### .data()
+Gets the normalized result of the parsed format.
 
-See [relevant output](https://github.com/ind9/web-auto-extractor/blob/master/test/resources/nonNormalizedResult.json) in test case.
-```
-//The keys are the md5 hash of the respective HTML element
-{
-  "ed08397308d9c31da5e50485f2dfe184": {   
-    "context": "http://schema.org/",
-    "type": "Product",
-    "name": "Product",
-    "value": null,
-    "properties": {
-      "brand": [
-      "e3abccbeed2389fd64e4fe57439c4ab6"
-      ],
-      "name": [
-      "8da2f7f6cb7e420b13442c075d4a1a17"
-      ],
-      ...
-      ...
-      },
-      "parentTypeId": null
-      },
-      "e3abccbeed2389fd64e4fe57439c4ab6": {
-        "name": "brand",
-        "value": "ACME",
-        "properties": {},
-        "parentTypeId": "ed08397308d9c31da5e50485f2dfe184"
-        },
-      "8da2f7f6cb7e420b13442c075d4a1a17": {
-        "name": "name",
-        "value": "Executive Anvil",
-        "properties": {},
-        "parentTypeId": "ed08397308d9c31da5e50485f2dfe184"
-        },
-      ...
-      ...
-    }
-  }
-  ...
-}
-```
+#### .unnormalizedData()
+Gets the unnormalized flattened result of the parsed format which includes meta information relating to the parsed properties.
+
+#### .find(propName)
+Returns a list of elements from `.data()` that corresponds to the property with the name `[propName]`.  
 
 [See test cases](https://github.com/ind9/web-auto-extractor/blob/master/test/test.js) for more examples.
