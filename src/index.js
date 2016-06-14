@@ -22,7 +22,7 @@ const WAEParserObject = () => {
   }
 }
 
-const WAEObject = (function () {
+const WAEObject = () => {
   let micro, rdfa, jsonld, meta
   return {
     parseMicrodata () {
@@ -58,12 +58,12 @@ const WAEObject = (function () {
       }
     }
   }
-})()
+}
 
 export default {
   init (html) {
     const $html = $.load(html, { xmlMode: true })
-    return Object.assign({}, WAEObject, {
+    return Object.assign({}, WAEObject(), {
       $html
     })
   }
