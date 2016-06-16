@@ -129,19 +129,9 @@ export default (html, specName) => {
       ...items[id]
     }, (val) => !_.isUndefined(val))
   })
-
-  return (function () {
-    let cachedData = null
-    return {
-      data: () => {
-        if (!cachedData) {
-          cachedData = normalize(items)
-        }
-        return cachedData
-      },
-      unnormalizedData: () => {
-        return items
-      }
-    }
-  })()
+  const data = normalize(items)
+  return {
+    data,
+    unnormalizedData: items
+  }
 }

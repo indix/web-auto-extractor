@@ -37,18 +37,9 @@ export default ($) => {
       }
     })
   })
-  return (function () {
-    let cachedData = null
-    return {
-      data: () => {
-        if (!cachedData) {
-          cachedData = normalize(parsedMetaItems)
-        }
-        return cachedData
-      },
-      unnormalizedData: () => {
-        return parsedMetaItems
-      }
-    }
-  })()
+  const data = normalize(parsedMetaItems)
+  return {
+    data,
+    unnormalizedData: parsedMetaItems
+  }
 }

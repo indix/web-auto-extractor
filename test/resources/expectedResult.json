@@ -1,0 +1,642 @@
+{
+  "metaTags": {
+    "data": {
+      "priceCurrency": [
+        "USD",
+        "USD"
+      ]
+    },
+    "unnormalizedData": [
+      {
+        "name": "priceCurrency",
+        "value": "USD",
+        "selector": {
+          "select": "meta[itemprop=\"priceCurrency\"]",
+          "extract": {
+            "attr": "content"
+          }
+        }
+      },
+      {
+        "name": "priceCurrency",
+        "value": "USD",
+        "selector": {
+          "select": "meta[property=\"priceCurrency\"]",
+          "extract": {
+            "attr": "content"
+          }
+        }
+      }
+    ]
+  },
+  "microdata": {
+    "data": [
+      {
+        "@context": "http://schema.org/",
+        "@type": "Product",
+        "brand": "ACME",
+        "name": "Executive Anvil",
+        "image": "anvil_executive.jpg",
+        "description": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
+        "mpn": "925872",
+        "aggregateRating": {
+          "@context": "http://schema.org/",
+          "@type": "AggregateRating",
+          "ratingValue": "4.4",
+          "reviewCount": "89"
+        },
+        "offers": {
+          "@context": "http://schema.org/",
+          "@type": "Offer",
+          "priceCurrency": "USD",
+          "price": "119.99",
+          "priceValidUntil": "5 November!",
+          "seller": {
+            "@context": "http://schema.org/",
+            "@type": "Organization",
+            "name": "Executive Objects"
+          },
+          "itemCondition": "http://schema.org/UsedCondition",
+          "availability": "http://schema.org/InStock"
+        }
+      }
+    ],
+    "unnormalizedData": {
+      "ed08397308d9c31da5e50485f2dfe184": {
+        "context": "http://schema.org/",
+        "type": "Product",
+        "name": "Product",
+        "value": null,
+        "properties": {
+          "brand": [
+            "e3abccbeed2389fd64e4fe57439c4ab6"
+          ],
+          "name": [
+            "8da2f7f6cb7e420b13442c075d4a1a17"
+          ],
+          "image": [
+            "332be617fc3014d6c28af2708c54d026"
+          ],
+          "description": [
+            "2ac7624b684213d6ee1a8a52958fd34f"
+          ],
+          "mpn": [
+            "9cc5fa74c7e6d00a8262e2c7b5d4ac96"
+          ],
+          "aggregateRating": [
+            "4c192575930bbabf2906c3b7fa3d1158"
+          ],
+          "offers": [
+            "c2f6fe6ac09736d25d5ae9da5989b163"
+          ]
+        },
+        "parentTypeId": null,
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0)",
+          "extract": {
+            "attr": null
+          }
+        }
+      },
+      "e3abccbeed2389fd64e4fe57439c4ab6": {
+        "name": "brand",
+        "value": "ACME",
+        "properties": {},
+        "parentTypeId": "ed08397308d9c31da5e50485f2dfe184",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"brand\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "8da2f7f6cb7e420b13442c075d4a1a17": {
+        "name": "name",
+        "value": "Executive Anvil",
+        "properties": {},
+        "parentTypeId": "ed08397308d9c31da5e50485f2dfe184",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"name\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "332be617fc3014d6c28af2708c54d026": {
+        "name": "image",
+        "value": "anvil_executive.jpg",
+        "properties": {},
+        "parentTypeId": "ed08397308d9c31da5e50485f2dfe184",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"image\"]:eq(1)",
+          "extract": {
+            "attr": "src"
+          }
+        }
+      },
+      "2ac7624b684213d6ee1a8a52958fd34f": {
+        "name": "description",
+        "value": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
+        "properties": {},
+        "parentTypeId": "ed08397308d9c31da5e50485f2dfe184",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"description\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "9cc5fa74c7e6d00a8262e2c7b5d4ac96": {
+        "name": "mpn",
+        "value": "925872",
+        "properties": {},
+        "parentTypeId": "ed08397308d9c31da5e50485f2dfe184",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"mpn\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "4c192575930bbabf2906c3b7fa3d1158": {
+        "context": "http://schema.org/",
+        "type": "AggregateRating",
+        "name": "aggregateRating",
+        "value": null,
+        "properties": {
+          "ratingValue": [
+            "93b9dc241a44b51cbfd9c11673c32914"
+          ],
+          "reviewCount": [
+            "792692ec882904295d24e9496a3aac61"
+          ]
+        },
+        "parentTypeId": "ed08397308d9c31da5e50485f2dfe184",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"aggregateRating\"]:eq(1)",
+          "extract": {
+            "attr": null
+          }
+        }
+      },
+      "93b9dc241a44b51cbfd9c11673c32914": {
+        "name": "ratingValue",
+        "value": "4.4",
+        "properties": {},
+        "parentTypeId": "4c192575930bbabf2906c3b7fa3d1158",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"aggregateRating\"]:eq(1) [itemprop=\"ratingValue\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "792692ec882904295d24e9496a3aac61": {
+        "name": "reviewCount",
+        "value": "89",
+        "properties": {},
+        "parentTypeId": "4c192575930bbabf2906c3b7fa3d1158",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"aggregateRating\"]:eq(1) [itemprop=\"reviewCount\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "c2f6fe6ac09736d25d5ae9da5989b163": {
+        "context": "http://schema.org/",
+        "type": "Offer",
+        "name": "offers",
+        "value": null,
+        "properties": {
+          "priceCurrency": [
+            "be4aec6a19ca327326db8e83be7d501d"
+          ],
+          "price": [
+            "f00d39c82bb39e3b605558ca60943a8a"
+          ],
+          "priceValidUntil": [
+            "9c36ce6377cad0a22606296217a2cc8f"
+          ],
+          "seller": [
+            "3d50e060d385748032f60a8c0bf3222d"
+          ],
+          "itemCondition": [
+            "7c31065c366fba50e5590f732296e279"
+          ],
+          "availability": [
+            "53c7c1eb7fafaadf7aab9bf0226fd3f4"
+          ]
+        },
+        "parentTypeId": "ed08397308d9c31da5e50485f2dfe184",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(1)",
+          "extract": {
+            "attr": null
+          }
+        }
+      },
+      "be4aec6a19ca327326db8e83be7d501d": {
+        "name": "priceCurrency",
+        "value": "USD",
+        "properties": {},
+        "parentTypeId": "c2f6fe6ac09736d25d5ae9da5989b163",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(1) [itemprop=\"priceCurrency\"]:eq(1)",
+          "extract": {
+            "attr": "content"
+          }
+        }
+      },
+      "f00d39c82bb39e3b605558ca60943a8a": {
+        "name": "price",
+        "value": "119.99",
+        "properties": {},
+        "parentTypeId": "c2f6fe6ac09736d25d5ae9da5989b163",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(1) [itemprop=\"price\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "9c36ce6377cad0a22606296217a2cc8f": {
+        "name": "priceValidUntil",
+        "value": "5 November!",
+        "properties": {},
+        "parentTypeId": "c2f6fe6ac09736d25d5ae9da5989b163",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(1) [itemprop=\"priceValidUntil\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "3d50e060d385748032f60a8c0bf3222d": {
+        "context": "http://schema.org/",
+        "type": "Organization",
+        "name": "seller",
+        "value": null,
+        "properties": {
+          "name": [
+            "733bdb3dab5b03e29bb64d4c2494f491"
+          ]
+        },
+        "parentTypeId": "c2f6fe6ac09736d25d5ae9da5989b163",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(1) [itemprop=\"seller\"]:eq(1)",
+          "extract": {
+            "attr": null
+          }
+        }
+      },
+      "733bdb3dab5b03e29bb64d4c2494f491": {
+        "name": "name",
+        "value": "Executive Objects",
+        "properties": {},
+        "parentTypeId": "3d50e060d385748032f60a8c0bf3222d",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(1) [itemprop=\"seller\"]:eq(1) [itemprop=\"name\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "7c31065c366fba50e5590f732296e279": {
+        "name": "itemCondition",
+        "value": "http://schema.org/UsedCondition",
+        "properties": {},
+        "parentTypeId": "c2f6fe6ac09736d25d5ae9da5989b163",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(1) [itemprop=\"itemCondition\"]:eq(1)",
+          "extract": {
+            "attr": "href"
+          }
+        }
+      },
+      "53c7c1eb7fafaadf7aab9bf0226fd3f4": {
+        "name": "availability",
+        "value": "http://schema.org/InStock",
+        "properties": {},
+        "parentTypeId": "c2f6fe6ac09736d25d5ae9da5989b163",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(1) [itemprop=\"availability\"]:eq(1)",
+          "extract": {
+            "attr": "href"
+          }
+        }
+      }
+    }
+  },
+  "rdfa": {
+    "data": [
+      {
+        "@context": "http://schema.org/",
+        "@type": "Product",
+        "brand": "ACME",
+        "name": "Executive Anvil",
+        "description": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
+        "mpn": "925872",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.4",
+          "reviewCount": "89"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "USD",
+          "price": "119.99",
+          "priceValidUntil": "5 November!",
+          "seller": {
+            "@type": "Organization",
+            "name": "Executive Objects"
+          },
+          "itemCondition": "http://schema.org/UsedCondition",
+          "availability": "http://schema.org/InStock"
+        }
+      }
+    ],
+    "unnormalizedData": {
+      "da0940d64216268ed42c646d4b1c3ae0": {
+        "context": "http://schema.org/",
+        "type": "Product",
+        "name": "Product",
+        "value": null,
+        "properties": {
+          "brand": [
+            "d21a6cece635a679f30db10c0f036335"
+          ],
+          "name": [
+            "df97040eb79a6a8dc8e2699ef84b63ca"
+          ],
+          "description": [
+            "f86e2772d1b668bf628d0c068a18061d"
+          ],
+          "mpn": [
+            "daae6b109d26ffd4acfc591890ca8c5c"
+          ],
+          "aggregateRating": [
+            "cbfe753234d04cb2f63eabdf8c8b6ce0"
+          ],
+          "offers": [
+            "1c30776180180fdb7c3eddbac9a3e2b7"
+          ]
+        },
+        "parentTypeId": null,
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0)",
+          "extract": {
+            "attr": null
+          }
+        }
+      },
+      "d21a6cece635a679f30db10c0f036335": {
+        "name": "brand",
+        "value": "ACME",
+        "properties": {},
+        "parentTypeId": "da0940d64216268ed42c646d4b1c3ae0",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"brand\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "df97040eb79a6a8dc8e2699ef84b63ca": {
+        "name": "name",
+        "value": "Executive Anvil",
+        "properties": {},
+        "parentTypeId": "da0940d64216268ed42c646d4b1c3ae0",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"name\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "f86e2772d1b668bf628d0c068a18061d": {
+        "name": "description",
+        "value": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
+        "properties": {},
+        "parentTypeId": "da0940d64216268ed42c646d4b1c3ae0",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"description\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "daae6b109d26ffd4acfc591890ca8c5c": {
+        "name": "mpn",
+        "value": "925872",
+        "properties": {},
+        "parentTypeId": "da0940d64216268ed42c646d4b1c3ae0",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"mpn\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "cbfe753234d04cb2f63eabdf8c8b6ce0": {
+        "type": "AggregateRating",
+        "name": "aggregateRating",
+        "value": null,
+        "properties": {
+          "ratingValue": [
+            "983034bb68699664f2081723b334d1ef"
+          ],
+          "reviewCount": [
+            "abab80fef1ebcce8489a54a56d3f08e9"
+          ]
+        },
+        "parentTypeId": "da0940d64216268ed42c646d4b1c3ae0",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"aggregateRating\"]:eq(1)",
+          "extract": {
+            "attr": null
+          }
+        }
+      },
+      "983034bb68699664f2081723b334d1ef": {
+        "name": "ratingValue",
+        "value": "4.4",
+        "properties": {},
+        "parentTypeId": "cbfe753234d04cb2f63eabdf8c8b6ce0",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"aggregateRating\"]:eq(1) [property=\"ratingValue\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "abab80fef1ebcce8489a54a56d3f08e9": {
+        "name": "reviewCount",
+        "value": "89",
+        "properties": {},
+        "parentTypeId": "cbfe753234d04cb2f63eabdf8c8b6ce0",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"aggregateRating\"]:eq(1) [property=\"reviewCount\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "1c30776180180fdb7c3eddbac9a3e2b7": {
+        "type": "Offer",
+        "name": "offers",
+        "value": null,
+        "properties": {
+          "priceCurrency": [
+            "f8e9e9decf11fa6295e48837af9fb0d0"
+          ],
+          "price": [
+            "4c4c8e6119af356c89ac700cf2ed08e2"
+          ],
+          "priceValidUntil": [
+            "77a06e12c0eb66d8918be25548ba4636"
+          ],
+          "seller": [
+            "fe485be5fe54d0066ffdb4b1cce02e66"
+          ],
+          "itemCondition": [
+            "770f7e11e9ddada8e81faaeaf0092cb8"
+          ],
+          "availability": [
+            "010d4b9175aa9b14a99be7e099ece548"
+          ]
+        },
+        "parentTypeId": "da0940d64216268ed42c646d4b1c3ae0",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(1)",
+          "extract": {
+            "attr": null
+          }
+        }
+      },
+      "f8e9e9decf11fa6295e48837af9fb0d0": {
+        "name": "priceCurrency",
+        "value": "USD",
+        "properties": {},
+        "parentTypeId": "1c30776180180fdb7c3eddbac9a3e2b7",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(1) [property=\"priceCurrency\"]:eq(1)",
+          "extract": {
+            "attr": "content"
+          }
+        }
+      },
+      "4c4c8e6119af356c89ac700cf2ed08e2": {
+        "name": "price",
+        "value": "119.99",
+        "properties": {},
+        "parentTypeId": "1c30776180180fdb7c3eddbac9a3e2b7",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(1) [property=\"price\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "77a06e12c0eb66d8918be25548ba4636": {
+        "name": "priceValidUntil",
+        "value": "5 November!",
+        "properties": {},
+        "parentTypeId": "1c30776180180fdb7c3eddbac9a3e2b7",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(1) [property=\"priceValidUntil\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "fe485be5fe54d0066ffdb4b1cce02e66": {
+        "type": "Organization",
+        "name": "seller",
+        "value": null,
+        "properties": {
+          "name": [
+            "ae411ece6e7d72e09e60fb09a1a6ba37"
+          ]
+        },
+        "parentTypeId": "1c30776180180fdb7c3eddbac9a3e2b7",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(1) [property=\"seller\"]:eq(1)",
+          "extract": {
+            "attr": null
+          }
+        }
+      },
+      "ae411ece6e7d72e09e60fb09a1a6ba37": {
+        "name": "name",
+        "value": "Executive Objects",
+        "properties": {},
+        "parentTypeId": "fe485be5fe54d0066ffdb4b1cce02e66",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(1) [property=\"seller\"]:eq(1) [property=\"name\"]:eq(1)",
+          "extract": {
+            "attr": "@text"
+          }
+        }
+      },
+      "770f7e11e9ddada8e81faaeaf0092cb8": {
+        "name": "itemCondition",
+        "value": "http://schema.org/UsedCondition",
+        "properties": {},
+        "parentTypeId": "1c30776180180fdb7c3eddbac9a3e2b7",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(1) [property=\"itemCondition\"]:eq(1)",
+          "extract": {
+            "attr": "href"
+          }
+        }
+      },
+      "010d4b9175aa9b14a99be7e099ece548": {
+        "name": "availability",
+        "value": "http://schema.org/InStock",
+        "properties": {},
+        "parentTypeId": "1c30776180180fdb7c3eddbac9a3e2b7",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(1) [property=\"availability\"]:eq(1)",
+          "extract": {
+            "attr": "href"
+          }
+        }
+      }
+    }
+  },
+  "jsonld": {
+    "data": [
+      {
+        "@context": "http://schema.org/",
+        "@type": "Product",
+        "name": "Executive Anvil",
+        "image": "http://www.example.com/anvil_executive.jpg",
+        "description": "Sleeker than ACME's Classic Anvil, the Executive Anvil is perfect for the business traveler looking for something to drop from a height.",
+        "mpn": "925872",
+        "brand": {
+          "@type": "Thing",
+          "name": "ACME"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.4",
+          "reviewCount": "89"
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "USD",
+          "price": "119.99",
+          "priceValidUntil": "2020-11-05",
+          "itemCondition": "http://schema.org/UsedCondition",
+          "availability": "http://schema.org/InStock",
+          "seller": {
+            "@type": "Organization",
+            "name": "Executive Objects"
+          }
+        }
+      }
+    ],
+    "unnormalizedData": null
+  }
+}

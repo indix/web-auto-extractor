@@ -14,11 +14,7 @@ export default function (html, config = {}) {
   })
 
   return {
-    data: () => {
-      return jsonldData
-    },
-    unnormalizedData: () => {
-      return jsonldData
-    }
+    data: jsonldData,
+    unnormalizedData: null
   }
 }
