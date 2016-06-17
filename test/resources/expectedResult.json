@@ -96,7 +96,11 @@
           "extract": {
             "attr": null
           }
-        }
+        },
+        "path": [
+          "$",
+          0
+        ]
       },
       "e3abccbeed2389fd64e4fe57439c4ab6": {
         "name": "brand",
@@ -108,7 +112,12 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "brand"
+        ]
       },
       "8da2f7f6cb7e420b13442c075d4a1a17": {
         "name": "name",
@@ -120,7 +129,12 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "name"
+        ]
       },
       "332be617fc3014d6c28af2708c54d026": {
         "name": "image",
@@ -132,7 +146,12 @@
           "extract": {
             "attr": "src"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "image"
+        ]
       },
       "2ac7624b684213d6ee1a8a52958fd34f": {
         "name": "description",
@@ -144,7 +163,12 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "description"
+        ]
       },
       "9cc5fa74c7e6d00a8262e2c7b5d4ac96": {
         "name": "mpn",
@@ -156,7 +180,12 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "mpn"
+        ]
       },
       "4c192575930bbabf2906c3b7fa3d1158": {
         "context": "http://schema.org/",
@@ -177,7 +206,12 @@
           "extract": {
             "attr": null
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "aggregateRating"
+        ]
       },
       "93b9dc241a44b51cbfd9c11673c32914": {
         "name": "ratingValue",
@@ -189,7 +223,13 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "aggregateRating",
+          "ratingValue"
+        ]
       },
       "792692ec882904295d24e9496a3aac61": {
         "name": "reviewCount",
@@ -201,7 +241,13 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "aggregateRating",
+          "reviewCount"
+        ]
       },
       "c2f6fe6ac09736d25d5ae9da5989b163": {
         "context": "http://schema.org/",
@@ -234,7 +280,12 @@
           "extract": {
             "attr": null
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers"
+        ]
       },
       "be4aec6a19ca327326db8e83be7d501d": {
         "name": "priceCurrency",
@@ -246,7 +297,13 @@
           "extract": {
             "attr": "content"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "priceCurrency"
+        ]
       },
       "f00d39c82bb39e3b605558ca60943a8a": {
         "name": "price",
@@ -258,7 +315,13 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "price"
+        ]
       },
       "9c36ce6377cad0a22606296217a2cc8f": {
         "name": "priceValidUntil",
@@ -270,7 +333,13 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "priceValidUntil"
+        ]
       },
       "3d50e060d385748032f60a8c0bf3222d": {
         "context": "http://schema.org/",
@@ -288,7 +357,13 @@
           "extract": {
             "attr": null
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "seller"
+        ]
       },
       "733bdb3dab5b03e29bb64d4c2494f491": {
         "name": "name",
@@ -300,7 +375,14 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "seller",
+          "name"
+        ]
       },
       "7c31065c366fba50e5590f732296e279": {
         "name": "itemCondition",
@@ -312,7 +394,13 @@
           "extract": {
             "attr": "href"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "itemCondition"
+        ]
       },
       "53c7c1eb7fafaadf7aab9bf0226fd3f4": {
         "name": "availability",
@@ -324,7 +412,13 @@
           "extract": {
             "attr": "href"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "availability"
+        ]
       }
     }
   },
@@ -388,7 +482,11 @@
           "extract": {
             "attr": null
           }
-        }
+        },
+        "path": [
+          "$",
+          0
+        ]
       },
       "d21a6cece635a679f30db10c0f036335": {
         "name": "brand",
@@ -400,7 +498,12 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "brand"
+        ]
       },
       "df97040eb79a6a8dc8e2699ef84b63ca": {
         "name": "name",
@@ -412,7 +515,12 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "name"
+        ]
       },
       "f86e2772d1b668bf628d0c068a18061d": {
         "name": "description",
@@ -424,7 +532,12 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "description"
+        ]
       },
       "daae6b109d26ffd4acfc591890ca8c5c": {
         "name": "mpn",
@@ -436,7 +549,12 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "mpn"
+        ]
       },
       "cbfe753234d04cb2f63eabdf8c8b6ce0": {
         "type": "AggregateRating",
@@ -456,7 +574,12 @@
           "extract": {
             "attr": null
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "aggregateRating"
+        ]
       },
       "983034bb68699664f2081723b334d1ef": {
         "name": "ratingValue",
@@ -468,7 +591,13 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "aggregateRating",
+          "ratingValue"
+        ]
       },
       "abab80fef1ebcce8489a54a56d3f08e9": {
         "name": "reviewCount",
@@ -480,7 +609,13 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "aggregateRating",
+          "reviewCount"
+        ]
       },
       "1c30776180180fdb7c3eddbac9a3e2b7": {
         "type": "Offer",
@@ -512,7 +647,12 @@
           "extract": {
             "attr": null
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers"
+        ]
       },
       "f8e9e9decf11fa6295e48837af9fb0d0": {
         "name": "priceCurrency",
@@ -524,7 +664,13 @@
           "extract": {
             "attr": "content"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "priceCurrency"
+        ]
       },
       "4c4c8e6119af356c89ac700cf2ed08e2": {
         "name": "price",
@@ -536,7 +682,13 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "price"
+        ]
       },
       "77a06e12c0eb66d8918be25548ba4636": {
         "name": "priceValidUntil",
@@ -548,7 +700,13 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "priceValidUntil"
+        ]
       },
       "fe485be5fe54d0066ffdb4b1cce02e66": {
         "type": "Organization",
@@ -565,7 +723,13 @@
           "extract": {
             "attr": null
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "seller"
+        ]
       },
       "ae411ece6e7d72e09e60fb09a1a6ba37": {
         "name": "name",
@@ -577,7 +741,14 @@
           "extract": {
             "attr": "@text"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "seller",
+          "name"
+        ]
       },
       "770f7e11e9ddada8e81faaeaf0092cb8": {
         "name": "itemCondition",
@@ -589,7 +760,13 @@
           "extract": {
             "attr": "href"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "itemCondition"
+        ]
       },
       "010d4b9175aa9b14a99be7e099ece548": {
         "name": "availability",
@@ -601,7 +778,13 @@
           "extract": {
             "attr": "href"
           }
-        }
+        },
+        "path": [
+          "$",
+          0,
+          "offers",
+          "availability"
+        ]
       }
     }
   },

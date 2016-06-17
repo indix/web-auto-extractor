@@ -27,19 +27,37 @@ function getPropValue (itemPropElement, TYPE, PROP) {
   }
 }
 
-const normalize = (items, idList = []) => {
+const normalize = (items, idList = [], path = [ '$' ]) => {
   if (idList.length === 0) {
     idList = Object.keys(items).filter(id =>
       items[id].parentTypeId === null)
+    // START SIDE EFFECT: ITEM PATH INFO
+    idList.forEach((id, index) => {
+      items[id].path = path.concat(index)
+    })
+    // END SIDE EFFECT: ITEM PATH INFO
   }
-  return idList.map(id => {
-    const { context, type, value, properties } = items[id]
+  return idList.map((id, index) => {
+    const { context, type, name, value, properties } = items[id]
+    // START SIDE EFFECT: ITEM PATH INFO
+    if (!items[id].path) {
+      if (idList.length > 1) {
+        idList.forEach((id, index) => {
+          items[id].path = path.concat([name, index])
+        })
+      } else {
+        idList.forEach((id, index) => {
+          items[id].path = path.concat(name)
+        })
+      }
+    }
+    // END: ITEM PATH INFO
     if (!type) {
       return value
     }
     let normalizedProperties = {}
     Object.keys(properties).map(key => {
-      let propValue = normalize(items, properties[key])
+      let propValue = normalize(items, properties[key], items[id].path)
       if (propValue.length === 1) {
         normalizedProperties[key] = propValue[0]
       } else if (propValue.length > 1) {
