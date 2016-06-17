@@ -33,9 +33,15 @@ const normalize = (items, idList = [], path = [ '$' ]) => {
       items[id].parentTypeId === null)
     // START SIDE EFFECT: ITEM PATH INFO
     idList.forEach((id, index) => {
-      items[id].path = path.concat(index)
+      items[id].path = path.concat([ items[id].name, index ])
     })
     // END SIDE EFFECT: ITEM PATH INFO
+    let result = {}
+    const groupedIdListByName = _.groupBy(idList, id => items[id].name)
+    Object.keys(groupedIdListByName).forEach(name => {
+      result[name] = normalize(items, groupedIdListByName[name], path)
+    })
+    return result
   }
   return idList.map((id, index) => {
     const { context, type, name, value, properties } = items[id]
