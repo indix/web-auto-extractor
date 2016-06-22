@@ -1,6 +1,6 @@
 {
   "name": "web-auto-extractor",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Automatically extracts structured information from webpages",
   "main": "dist/index.js",
   "scripts": {
