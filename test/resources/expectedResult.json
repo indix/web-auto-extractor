@@ -6,28 +6,28 @@
         "USD"
       ]
     },
-    "unnormalizedData": [
-      {
-        "name": "priceCurrency",
-        "value": "USD",
-        "selector": {
-          "select": "meta[itemprop=\"priceCurrency\"]",
-          "extract": {
-            "attr": "content"
+    "unnormalizedData": {
+      "priceCurrency": [
+        {
+          "value": "USD",
+          "selector": {
+            "select": "meta[itemprop=\"priceCurrency\"].eq(0)",
+            "extract": {
+              "attr": "content"
+            }
+          }
+        },
+        {
+          "value": "USD",
+          "selector": {
+            "select": "meta[property=\"priceCurrency\"].eq(1)",
+            "extract": {
+              "attr": "content"
+            }
           }
         }
-      },
-      {
-        "name": "priceCurrency",
-        "value": "USD",
-        "selector": {
-          "select": "meta[property=\"priceCurrency\"]",
-          "extract": {
-            "attr": "content"
-          }
-        }
-      }
-    ]
+      ]
+    }
   },
   "microdata": {
     "data": {

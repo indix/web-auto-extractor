@@ -1,36 +1,25 @@
 import _ from 'lodash'
 
 const normalize = (items) => {
-  let normalizedItems = {}
-  items.map(item => {
-    const { name, value } = item
-    if (normalizedItems[name]) {
-      if (_.isArray(normalizedItems[name])) {
-        normalizedItems[name].push(value)
-      } else {
-        normalizedItems[name] = [
-          normalizedItems[name],
-          value
-        ]
-      }
-    } else {
-      normalizedItems[name] = value
-    }
-  })
-  return normalizedItems
+  return Object.keys(items).reduce((normalizedItems, itemName) => {
+    normalizedItems[itemName] = items[itemName].map(({ value }) => value)
+    return normalizedItems
+  }, {})
 }
 
 export default ($) => {
-  let parsedMetaItems = []
+  let parsedMetaItems = {}
   $('meta').each((index, elem) => {
-    const nameKey = _.find(_.keys(elem.attribs), attr => attr !== 'content')
+    const nameKey = _.find(_.keys(elem.attribs), attr => [ 'name', 'property', 'itemprop' ].indexOf(attr) !== -1)
     const name = elem.attribs[nameKey]
     const value = elem.attribs['content']
-    parsedMetaItems.push({
-      name,
+    if (!parsedMetaItems[name]) {
+      parsedMetaItems[name] = []
+    }
+    parsedMetaItems[name].push({
       value,
       selector: {
-        select: `meta[${nameKey}="${name}"]`,
+        select: `meta[${nameKey}="${name}"].eq(${parsedMetaItems[name].length})`,
         extract: {
           attr: 'content'
         }
