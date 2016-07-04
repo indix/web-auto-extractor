@@ -19,7 +19,7 @@ export default ($) => {
     parsedMetaItems[name].push({
       value,
       selector: {
-        select: `meta[${nameKey}="${name}"].eq(${parsedMetaItems[name].length})`,
+        select: `meta[${nameKey}="${name}"]:eq(${parsedMetaItems[name].length})`,
         extract: {
           attr: 'content'
         }

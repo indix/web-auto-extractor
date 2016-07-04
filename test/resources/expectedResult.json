@@ -11,7 +11,7 @@
         {
           "value": "USD",
           "selector": {
-            "select": "meta[itemprop=\"priceCurrency\"].eq(0)",
+            "select": "meta[itemprop=\"priceCurrency\"]:eq(0)",
             "extract": {
               "attr": "content"
             }
@@ -20,7 +20,7 @@
         {
           "value": "USD",
           "selector": {
-            "select": "meta[property=\"priceCurrency\"].eq(1)",
+            "select": "meta[property=\"priceCurrency\"]:eq(1)",
             "extract": {
               "attr": "content"
             }
