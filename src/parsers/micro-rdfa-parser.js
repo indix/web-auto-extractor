@@ -1,81 +1,28 @@
-import $ from 'cheerio'
-import md5 from 'md5'
-import { getCheerioObject } from './utils'
+import htmlparser from 'htmlparser2'
 import _ from 'lodash'
 
-function getPropValue (itemPropElement, TYPE, PROP) {
+function getPropValue (tagName, attribs, TYPE, PROP) {
   let value, attr
-  if ($(itemPropElement).attr(`${TYPE}`)) {
+  if (attribs[TYPE]) {
     value = null
     attr = null
-  } else if (itemPropElement.tagName === 'a' || itemPropElement.tagName === 'link') {
-    value = $(itemPropElement).attr('href').trim()
+  } else if (tagName === 'a' || tagName === 'link') {
+    value = attribs.href.trim()
     attr = 'href'
-  } else if ($(itemPropElement).attr('content')) {
-    value = $(itemPropElement).attr('content').trim()
+  } else if (attribs.content) {
+    value = attribs.content.trim()
     attr = 'content'
-  } else if ($(itemPropElement).attr(`${PROP}`) === 'image' && $(itemPropElement).attr('src')) {
-    value = $(itemPropElement).attr('src').trim()
+  } else if (attribs[PROP] === 'image' && attribs.src) {
+    value = attribs.src.trim()
     attr = 'src'
   } else {
-    value = $(itemPropElement).text().trim()
+    value = null
     attr = '@text'
   }
   return {
     value,
     attr
   }
-}
-
-const normalize = (items, idList = [], path = [ '$' ]) => {
-  if (idList.length === 0) {
-    idList = Object.keys(items).filter(id =>
-      items[id].parentTypeId === null)
-    // START SIDE EFFECT: ITEM PATH INFO
-    idList.forEach((id, index) => {
-      items[id].path = path.concat([ items[id].name, index ])
-    })
-    // END SIDE EFFECT: ITEM PATH INFO
-    let result = {}
-    const groupedIdListByName = _.groupBy(idList, id => items[id].name)
-    Object.keys(groupedIdListByName).forEach(name => {
-      result[name] = normalize(items, groupedIdListByName[name], path)
-    })
-    return result
-  }
-  return idList.map((id, index) => {
-    const { context, type, name, value, properties } = items[id]
-    // START SIDE EFFECT: ITEM PATH INFO
-    if (!items[id].path) {
-      if (idList.length > 1) {
-        idList.forEach((id, index) => {
-          items[id].path = path.concat([name, index])
-        })
-      } else {
-        idList.forEach((id, index) => {
-          items[id].path = path.concat(name)
-        })
-      }
-    }
-    // END: ITEM PATH INFO
-    if (!type) {
-      return value
-    }
-    let normalizedProperties = {}
-    Object.keys(properties).map(key => {
-      let propValue = normalize(items, properties[key], items[id].path)
-      if (propValue.length === 1) {
-        normalizedProperties[key] = propValue[0]
-      } else if (propValue.length > 1) {
-        normalizedProperties[key] = propValue
-      }
-    })
-    return _.pickBy({
-      '@context': context,
-      '@type': type,
-      ...normalizedProperties
-    }, (val) => !_.isUndefined(val))
-  })
 }
 
 const getAttrNames = (specName) => {
@@ -100,62 +47,98 @@ const getType = (typeString) => {
   }
 }
 
-export default (html, specName) => {
-  const { TYPE, PROP } = getAttrNames(specName)
-  const $html = getCheerioObject(html)
+export default (html, specName, $) => {
+  return new Promise((resolve, reject) => {
+    const { TYPE, PROP } = getAttrNames(specName)
+    let scopes = []
+    let tags = []
+    let props = []
+    let path = []
+    let topLevelScope = {}
 
-  let items = {}
+    const parser = new htmlparser.Parser({
+      onopentag (tagName, attribs) {
+        let currentScope = scopes[scopes.length - 1]
+        let tag = false
+        let parentScope, scopeIndex
 
-  $html(`[${TYPE}], [${PROP}]`).each((idx, itemElement) => {
-    const itemElementId = $(itemElement).attr('id')
-    const id = md5($.html($(itemElement)))
-    const parentTypeHtml = $.html($(itemElement).parent().closest(`[${TYPE}]`))
-    const parentTypeId = (parentTypeHtml) ? md5(parentTypeHtml) : null
-    const isProp = $(itemElement).attr(`${PROP}`) !== undefined
-    const typeString = $(itemElement).attr(`${TYPE}`)
-    const vocab = $(itemElement).attr('vocab')
-    const { context, type } = typeString ? getType(typeString) : {}
-    const name = (isProp) ? $(itemElement).attr(`${PROP}`) : type
-    const { value, attr } = getPropValue(itemElement, TYPE, PROP)
-    const processCssSelector = () => {
-      const relativeIndexPosition = parentTypeId ? items[parentTypeId].properties[name].length : 0
-      const parentSelector = parentTypeId ? items[parentTypeId].selector.select + ' ' : ''
-      const relativeSelector = ((isProp)
-                                ? `[${PROP}="${name}"]`
-                                : `[${TYPE}="${typeString}"]`
-                              ) + `:eq(${relativeIndexPosition})`
-      return itemElementId ? `#${itemElementId}` : `${parentSelector}${relativeSelector}`
-    }
+        if (attribs[TYPE]) {
+          if (attribs[PROP] && currentScope) {
+            let newScope = {}
+            parentScope = currentScope
+            currentScope[attribs[PROP]] = currentScope[attribs[PROP]] || []
+            scopeIndex = currentScope[attribs[PROP]].length
+            currentScope[attribs[PROP]].push(newScope)
+            currentScope = newScope
+          } else {
+            parentScope = topLevelScope
+            currentScope = {}
+            const { type } = getType(attribs[TYPE])
+            topLevelScope[type] = topLevelScope[type] || []
+            scopeIndex = topLevelScope[type].length
+            topLevelScope[type].push(currentScope)
+          }
+        }
 
-    if (parentTypeId) {
-      if (!items[parentTypeId]) {
-        items[parentTypeId] = { properties: {} }
-      }
-      if (!items[parentTypeId].properties[name]) {
-        items[parentTypeId].properties[name] = []
-      }
-      items[parentTypeId].properties[name].push(id)
-    }
+        if (currentScope) {
+          let { value, attr } = getPropValue(tagName, attribs, TYPE, PROP)
+          let cssSelector, name
 
-    items[id] = _.pickBy({
-      context: vocab || context,
-      type,
-      name,
-      value,
-      properties: {},
-      parentTypeId,
-      selector: {
-        select: processCssSelector(),
-        extract: {
-          attr
+          if (attribs[TYPE]) {
+            const { context, type } = getType(attribs[TYPE])
+            currentScope['@context'] = context
+            currentScope['@type'] = type
+            name = type
+            const parentSelector = parentScope['@selector'] ? parentScope['@selector'] + ' ' : ''
+            const selfSelector = (attribs[PROP]) ? `[${PROP}="${attribs[PROP]}"]` : `[${TYPE}="${attribs[TYPE]}"]`
+            currentScope['@selector'] = parentSelector + selfSelector + `:eq(${scopeIndex})`
+            tag = TYPE
+            cssSelector = {
+              selector: currentScope['@selector'],
+              extract: {
+                attr
+              }
+            }
+          } else if (attribs[PROP]) {
+            cssSelector = {
+              selector: currentScope['@selector'] + ' ' + `[${PROP}="${attribs[PROP]}"]` + ':eq(0)',
+              extract: {
+                attr
+              }
+            }
+            value = (!value && cssSelector) ? $(cssSelector.selector).text().trim() : value
+            currentScope[attribs[PROP]] = value
+            name = attribs[PROP]
+            tag = PROP
+          }
+          let v
+          if (!value && cssSelector) {}
+          props.push({
+            name,
+            value,
+            cssSelector,
+            path: path.concat(name)
+          })
+          path.push(name)
+        }
+        tags.push(tag)
+        scopes.push(currentScope)
+      },
+      onclosetag (tagname) {
+        const tag = tags.pop()
+        if (tag) {
+          scopes.pop()
+          path.pop()
         }
       },
-      ...items[id]
-    }, (val) => !_.isUndefined(val))
+      onerror (err) {
+        reject(err)
+      },
+      onend () {
+        resolve({ props, topLevelScope })
+      }
+    })
+    parser.write(html)
+    parser.done()
   })
-  const data = normalize(items)
-  return {
-    data,
-    unnormalizedData: items
-  }
 }
