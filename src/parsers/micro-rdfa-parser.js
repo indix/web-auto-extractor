@@ -82,7 +82,7 @@ export default (html, specName, $) => {
 
         if (currentScope) {
           let { value, attr } = getPropValue(tagName, attribs, TYPE, PROP)
-          let cssSelector, name
+          let selector, name
 
           if (attribs[TYPE]) {
             const { context, type } = getType(attribs[TYPE])
@@ -94,8 +94,8 @@ export default (html, specName, $) => {
             const selfSelector = (attribs[PROP]) ? `[${PROP}="${attribs[PROP]}"]` : `[${TYPE}="${attribs[TYPE]}"]`
             currentScope['@selector'] = parentSelector + selfSelector + `:eq(${scopeIndex})`
             tag = TYPE
-            cssSelector = {
-              selector: currentScope['@selector'],
+            selector = {
+              select: currentScope['@selector'],
               extract: {
                 attr
               }
@@ -103,25 +103,25 @@ export default (html, specName, $) => {
             props.push({
               name,
               value,
-              cssSelector,
+              selector,
               path: path.concat(name, scopeIndex)
             })
             path.push(name, scopeIndex)
             scopes.push(currentScope)
           } else if (attribs[PROP]) {
-            cssSelector = {
-              selector: currentScope['@selector'] + ' ' + `[${PROP}="${attribs[PROP]}"]` + ':eq(0)',
+            selector = {
+              select: currentScope['@selector'] + ' ' + `[${PROP}="${attribs[PROP]}"]` + ':eq(0)',
               extract: {
                 attr
               }
             }
-            value = (!value && cssSelector) ? $(cssSelector.selector).text().trim() : value
+            value = (!value && selector) ? $(selector.select).text().trim() : value
             currentScope[attribs[PROP]] = value
             name = attribs[PROP]
             props.push({
               name,
               value,
-              cssSelector,
+              selector,
               path: path.concat(name)
             })
           }

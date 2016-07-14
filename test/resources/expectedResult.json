@@ -67,8 +67,8 @@
       {
         "name": "Product",
         "value": null,
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0)",
           "extract": {
             "attr": null
           }
@@ -81,8 +81,8 @@
       {
         "name": "brand",
         "value": "ACME",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"brand\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"brand\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -96,8 +96,8 @@
       {
         "name": "name",
         "value": "Executive Anvil",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"name\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"name\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -111,8 +111,8 @@
       {
         "name": "image",
         "value": "anvil_executive.jpg",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"image\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"image\"]:eq(0)",
           "extract": {
             "attr": "src"
           }
@@ -126,8 +126,8 @@
       {
         "name": "description",
         "value": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"description\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"description\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -141,8 +141,8 @@
       {
         "name": "mpn",
         "value": "925872",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"mpn\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"mpn\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -156,8 +156,8 @@
       {
         "name": "aggregateRating",
         "value": null,
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"aggregateRating\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"aggregateRating\"]:eq(0)",
           "extract": {
             "attr": null
           }
@@ -172,8 +172,8 @@
       {
         "name": "ratingValue",
         "value": "4.4",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"aggregateRating\"]:eq(0) [itemprop=\"ratingValue\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"aggregateRating\"]:eq(0) [itemprop=\"ratingValue\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -189,8 +189,8 @@
       {
         "name": "reviewCount",
         "value": "89",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"aggregateRating\"]:eq(0) [itemprop=\"reviewCount\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"aggregateRating\"]:eq(0) [itemprop=\"reviewCount\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -206,8 +206,8 @@
       {
         "name": "offers",
         "value": null,
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0)",
           "extract": {
             "attr": null
           }
@@ -222,8 +222,8 @@
       {
         "name": "priceCurrency",
         "value": "USD",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"priceCurrency\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"priceCurrency\"]:eq(0)",
           "extract": {
             "attr": "content"
           }
@@ -239,8 +239,8 @@
       {
         "name": "price",
         "value": "119.99",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"price\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"price\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -256,8 +256,8 @@
       {
         "name": "priceValidUntil",
         "value": "5 November!",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"priceValidUntil\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"priceValidUntil\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -273,8 +273,8 @@
       {
         "name": "seller",
         "value": null,
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"seller\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"seller\"]:eq(0)",
           "extract": {
             "attr": null
           }
@@ -291,8 +291,8 @@
       {
         "name": "name",
         "value": "Executive Objects",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"seller\"]:eq(0) [itemprop=\"name\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"seller\"]:eq(0) [itemprop=\"name\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -310,8 +310,8 @@
       {
         "name": "itemCondition",
         "value": "http://schema.org/UsedCondition",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"itemCondition\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"itemCondition\"]:eq(0)",
           "extract": {
             "attr": "href"
           }
@@ -327,8 +327,8 @@
       {
         "name": "availability",
         "value": "http://schema.org/InStock",
-        "cssSelector": {
-          "selector": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"availability\"]:eq(0)",
+        "selector": {
+          "select": "[itemtype=\"http://schema.org/Product\"]:eq(0) [itemprop=\"offers\"]:eq(0) [itemprop=\"availability\"]:eq(0)",
           "extract": {
             "attr": "href"
           }
@@ -377,8 +377,8 @@
       {
         "name": "Product",
         "value": null,
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0)",
           "extract": {
             "attr": null
           }
@@ -391,8 +391,8 @@
       {
         "name": "brand",
         "value": "ACME",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"brand\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"brand\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -406,8 +406,8 @@
       {
         "name": "name",
         "value": "Executive Anvil",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"name\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"name\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -421,8 +421,8 @@
       {
         "name": "description",
         "value": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"description\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"description\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -436,8 +436,8 @@
       {
         "name": "mpn",
         "value": "925872",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"mpn\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"mpn\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -451,8 +451,8 @@
       {
         "name": "aggregateRating",
         "value": null,
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"aggregateRating\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"aggregateRating\"]:eq(0)",
           "extract": {
             "attr": null
           }
@@ -467,8 +467,8 @@
       {
         "name": "ratingValue",
         "value": "4.4",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"aggregateRating\"]:eq(0) [property=\"ratingValue\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"aggregateRating\"]:eq(0) [property=\"ratingValue\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -484,8 +484,8 @@
       {
         "name": "reviewCount",
         "value": "89",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"aggregateRating\"]:eq(0) [property=\"reviewCount\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"aggregateRating\"]:eq(0) [property=\"reviewCount\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -501,8 +501,8 @@
       {
         "name": "offers",
         "value": null,
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0)",
           "extract": {
             "attr": null
           }
@@ -517,8 +517,8 @@
       {
         "name": "priceCurrency",
         "value": "USD",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"priceCurrency\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"priceCurrency\"]:eq(0)",
           "extract": {
             "attr": "content"
           }
@@ -534,8 +534,8 @@
       {
         "name": "price",
         "value": "119.99",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"price\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"price\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -551,8 +551,8 @@
       {
         "name": "priceValidUntil",
         "value": "5 November!",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"priceValidUntil\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"priceValidUntil\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -568,8 +568,8 @@
       {
         "name": "seller",
         "value": null,
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"seller\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"seller\"]:eq(0)",
           "extract": {
             "attr": null
           }
@@ -586,8 +586,8 @@
       {
         "name": "name",
         "value": "Executive Objects",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"seller\"]:eq(0) [property=\"name\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"seller\"]:eq(0) [property=\"name\"]:eq(0)",
           "extract": {
             "attr": "@text"
           }
@@ -605,8 +605,8 @@
       {
         "name": "itemCondition",
         "value": "http://schema.org/UsedCondition",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"itemCondition\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"itemCondition\"]:eq(0)",
           "extract": {
             "attr": "href"
           }
@@ -622,8 +622,8 @@
       {
         "name": "availability",
         "value": "http://schema.org/InStock",
-        "cssSelector": {
-          "selector": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"availability\"]:eq(0)",
+        "selector": {
+          "select": "[typeof=\"Product\"]:eq(0) [property=\"offers\"]:eq(0) [property=\"availability\"]:eq(0)",
           "extract": {
             "attr": "href"
           }
