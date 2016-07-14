@@ -9,7 +9,7 @@ const expectedResult = JSON.parse(fileReader('test/resources/expectedResult.json
 const testPage = fileReader('test/resources/testPage.html')
 let microdata, rdfa, metaTags, jsonld
 
-describe('Web Auto Extractor for NORMALIZED output', function () {
+describe('Web Auto Extractor', function () {
   before(async function () {
     const result = await WAE.parse(testPage)
     microdata = result.microdata
@@ -17,33 +17,19 @@ describe('Web Auto Extractor for NORMALIZED output', function () {
     metaTags = result.metaTags
     jsonld = result.jsonld
   })
-  it('should find all elements with microdata', async function () {
-    assert.deepEqual(microdata.data, expectedResult.microdata.data)
+  it('should find all elements with microdata', function () {
+    assert.deepEqual(microdata, expectedResult.microdata)
   })
 
   it('should find all elements with rdfa', function () {
-    assert.deepEqual(rdfa.data, expectedResult.rdfa.data)
+    assert.deepEqual(rdfa, expectedResult.rdfa)
   })
 
   it('should find embedded json-ld', function () {
-    assert.deepEqual(jsonld.data, expectedResult.jsonld.data)
+    assert.deepEqual(jsonld, expectedResult.jsonld)
   })
 
   it('should find embedded meta tags', function () {
-    assert.deepEqual(metaTags.data, expectedResult.metaTags.data)
-  })
-})
-
-describe('Web Auto Extractor for NON-NORMALIZED output', function () {
-  it('should find all elements with microdata', function () {
-    assert.deepEqual(microdata.unnormalizedData, expectedResult.microdata.unnormalizedData)
-  })
-
-  it('should find all elements with rdfa', function () {
-    assert.deepEqual(rdfa.unnormalizedData, expectedResult.rdfa.unnormalizedData)
-  })
-
-  it('should find all elements with meta tags', function () {
-    assert.deepEqual(metaTags.unnormalizedData, expectedResult.metaTags.unnormalizedData)
+    assert.deepEqual(metaTags, expectedResult.metaTags)
   })
 })

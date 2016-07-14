@@ -2,26 +2,16 @@ import htmlparser from 'htmlparser2'
 import _ from 'lodash'
 
 function getPropValue (tagName, attribs, TYPE, PROP) {
-  let value, attr
   if (attribs[TYPE]) {
-    value = null
-    attr = null
+    return null
   } else if (tagName === 'a' || tagName === 'link') {
-    value = attribs.href.trim()
-    attr = 'href'
+    return attribs.href.trim()
   } else if (attribs.content) {
-    value = attribs.content.trim()
-    attr = 'content'
+    return attribs.content.trim()
   } else if (attribs[PROP] === 'image' && attribs.src) {
-    value = attribs.src.trim()
-    attr = 'src'
+    return attribs.src.trim()
   } else {
-    value = null
-    attr = '@text'
-  }
-  return {
-    value,
-    attr
+    return null
   }
 }
 
@@ -52,87 +42,59 @@ export default (html, specName, $) => {
     const { TYPE, PROP } = getAttrNames(specName)
     let scopes = []
     let tags = []
-    let props = []
-    let path = []
     let topLevelScope = {}
+    let textForProp = null
 
     const parser = new htmlparser.Parser({
       onopentag (tagName, attribs) {
         let currentScope = scopes[scopes.length - 1]
         let tag = false
-        let parentScope, scopeIndex
 
         if (attribs[TYPE]) {
           if (attribs[PROP] && currentScope) {
             let newScope = {}
-            parentScope = currentScope
             currentScope[attribs[PROP]] = currentScope[attribs[PROP]] || []
-            scopeIndex = currentScope[attribs[PROP]].length
             currentScope[attribs[PROP]].push(newScope)
             currentScope = newScope
           } else {
-            parentScope = topLevelScope
             currentScope = {}
             const { type } = getType(attribs[TYPE])
             topLevelScope[type] = topLevelScope[type] || []
-            scopeIndex = topLevelScope[type].length
             topLevelScope[type].push(currentScope)
           }
         }
 
         if (currentScope) {
-          let { value, attr } = getPropValue(tagName, attribs, TYPE, PROP)
-          let selector, name
+          let value = getPropValue(tagName, attribs, TYPE, PROP)
 
           if (attribs[TYPE]) {
             const { context, type } = getType(attribs[TYPE])
             const vocab = attribs.vocab
             currentScope['@context'] = context || vocab
             currentScope['@type'] = type
-            name = attribs[PROP] ? attribs[PROP] : type
-            const parentSelector = parentScope['@selector'] ? parentScope['@selector'] + ' ' : ''
-            const selfSelector = (attribs[PROP]) ? `[${PROP}="${attribs[PROP]}"]` : `[${TYPE}="${attribs[TYPE]}"]`
-            currentScope['@selector'] = parentSelector + selfSelector + `:eq(${scopeIndex})`
             tag = TYPE
-            selector = {
-              select: currentScope['@selector'],
-              extract: {
-                attr
-              }
-            }
-            props.push({
-              name,
-              value,
-              selector,
-              path: path.concat(name, scopeIndex)
-            })
-            path.push(name, scopeIndex)
             scopes.push(currentScope)
           } else if (attribs[PROP]) {
-            selector = {
-              select: currentScope['@selector'] + ' ' + `[${PROP}="${attribs[PROP]}"]` + ':eq(0)',
-              extract: {
-                attr
-              }
+            if (!value) {
+              tag = PROP
+              currentScope[attribs[PROP]] = ''
+              textForProp = attribs[PROP]
+            } else {
+              currentScope[attribs[PROP]] = value
             }
-            value = (!value && selector) ? $(selector.select).text().trim() : value
-            currentScope[attribs[PROP]] = value
-            name = attribs[PROP]
-            props.push({
-              name,
-              value,
-              selector,
-              path: path.concat(name)
-            })
           }
         }
         tags.push(tag)
       },
+      ontext: function (text) {
+        if (textForProp) {
+          scopes[scopes.length - 1][textForProp] += text.trim()
+        }
+      },
       onclosetag (tagname) {
         const tag = tags.pop()
-        if (tag) {
+        if (tag === TYPE) {
           let scope = scopes.pop()
-          delete scope['@selector']
           if (!scope['@context']) {
             delete scope['@context']
           }
@@ -141,15 +103,15 @@ export default (html, specName, $) => {
               scope[key] = scope[key][0]
             }
           })
-          path.pop()
-          path.pop()
+        } else if (tag === PROP) {
+          textForProp = false
         }
       },
       onerror (err) {
         reject(err)
       },
       onend () {
-        resolve({ data: topLevelScope, unnormalizedData: props })
+        resolve(topLevelScope)
       }
     })
     parser.write(html)
