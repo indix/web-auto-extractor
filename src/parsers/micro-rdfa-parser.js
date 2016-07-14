@@ -86,9 +86,10 @@ export default (html, specName, $) => {
 
           if (attribs[TYPE]) {
             const { context, type } = getType(attribs[TYPE])
-            currentScope['@context'] = context
+            const vocab = attribs.vocab
+            currentScope['@context'] = context || vocab
             currentScope['@type'] = type
-            name = type
+            name = attribs[PROP] ? attribs[PROP] : type
             const parentSelector = parentScope['@selector'] ? parentScope['@selector'] + ' ' : ''
             const selfSelector = (attribs[PROP]) ? `[${PROP}="${attribs[PROP]}"]` : `[${TYPE}="${attribs[TYPE]}"]`
             currentScope['@selector'] = parentSelector + selfSelector + `:eq(${scopeIndex})`
@@ -99,6 +100,14 @@ export default (html, specName, $) => {
                 attr
               }
             }
+            props.push({
+              name,
+              value,
+              cssSelector,
+              path: path.concat(name, scopeIndex)
+            })
+            path.push(name, scopeIndex)
+            scopes.push(currentScope)
           } else if (attribs[PROP]) {
             cssSelector = {
               selector: currentScope['@selector'] + ' ' + `[${PROP}="${attribs[PROP]}"]` + ':eq(0)',
@@ -109,25 +118,30 @@ export default (html, specName, $) => {
             value = (!value && cssSelector) ? $(cssSelector.selector).text().trim() : value
             currentScope[attribs[PROP]] = value
             name = attribs[PROP]
-            tag = PROP
+            props.push({
+              name,
+              value,
+              cssSelector,
+              path: path.concat(name)
+            })
           }
-          let v
-          if (!value && cssSelector) {}
-          props.push({
-            name,
-            value,
-            cssSelector,
-            path: path.concat(name)
-          })
-          path.push(name)
         }
         tags.push(tag)
-        scopes.push(currentScope)
       },
       onclosetag (tagname) {
         const tag = tags.pop()
         if (tag) {
-          scopes.pop()
+          let scope = scopes.pop()
+          delete scope['@selector']
+          if (!scope['@context']) {
+            delete scope['@context']
+          }
+          Object.keys(scope).forEach((key) => {
+            if (_.isArray(scope[key]) && scope[key].length === 1) {
+              scope[key] = scope[key][0]
+            }
+          })
+          path.pop()
           path.pop()
         }
       },
@@ -135,7 +149,7 @@ export default (html, specName, $) => {
         reject(err)
       },
       onend () {
-        resolve({ props, topLevelScope })
+        resolve({ data: topLevelScope, unnormalizedData: props })
       }
     })
     parser.write(html)
