@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import $ from 'cheerio'
 import cheerioAdv from 'cheerio-advanced-selectors'
 import MetaTagsParser from './parsers/metatag-parser'
