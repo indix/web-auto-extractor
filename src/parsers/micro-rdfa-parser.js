@@ -65,8 +65,6 @@ export default (html, specName, $) => {
         }
 
         if (currentScope) {
-          let value = getPropValue(tagName, attribs, TYPE, PROP)
-
           if (attribs[TYPE]) {
             const { context, type } = getType(attribs[TYPE])
             const vocab = attribs.vocab
@@ -75,6 +73,7 @@ export default (html, specName, $) => {
             tag = TYPE
             scopes.push(currentScope)
           } else if (attribs[PROP]) {
+            const value = getPropValue(tagName, attribs, TYPE, PROP)
             if (!value) {
               tag = PROP
               currentScope[attribs[PROP]] = ''
