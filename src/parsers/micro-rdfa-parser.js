@@ -37,83 +37,85 @@ const getType = (typeString) => {
   }
 }
 
-export default (html, specName, $) => {
-  return new Promise((resolve, reject) => {
+class Handler {
+
+  constructor (specName) {
+    this.scopes = []
+    this.tags = []
+    this.topLevelScope = {}
+    this.textForProp = null
     const { TYPE, PROP } = getAttrNames(specName)
-    let scopes = []
-    let tags = []
-    let topLevelScope = {}
-    let textForProp = null
+    this.TYPE = TYPE
+    this.PROP = PROP
+  }
 
-    const parser = new htmlparser.Parser({
-      onopentag (tagName, attribs) {
-        let currentScope = scopes[scopes.length - 1]
-        let tag = false
+  onopentag (tagName, attribs) {
+    let currentScope = this.scopes[this.scopes.length - 1]
+    let tag = false
 
-        if (attribs[TYPE]) {
-          if (attribs[PROP] && currentScope) {
-            let newScope = {}
-            currentScope[attribs[PROP]] = currentScope[attribs[PROP]] || []
-            currentScope[attribs[PROP]].push(newScope)
-            currentScope = newScope
-          } else {
-            currentScope = {}
-            const { type } = getType(attribs[TYPE])
-            topLevelScope[type] = topLevelScope[type] || []
-            topLevelScope[type].push(currentScope)
-          }
-        }
-
-        if (currentScope) {
-          if (attribs[TYPE]) {
-            const { context, type } = getType(attribs[TYPE])
-            const vocab = attribs.vocab
-            currentScope['@context'] = context || vocab
-            currentScope['@type'] = type
-            tag = TYPE
-            scopes.push(currentScope)
-          } else if (attribs[PROP]) {
-            const value = getPropValue(tagName, attribs, TYPE, PROP)
-            if (!value) {
-              tag = PROP
-              currentScope[attribs[PROP]] = ''
-              textForProp = attribs[PROP]
-            } else {
-              currentScope[attribs[PROP]] = value
-            }
-          }
-        }
-        tags.push(tag)
-      },
-      ontext: function (text) {
-        if (textForProp) {
-          scopes[scopes.length - 1][textForProp] += text.trim()
-        }
-      },
-      onclosetag (tagname) {
-        const tag = tags.pop()
-        if (tag === TYPE) {
-          let scope = scopes.pop()
-          if (!scope['@context']) {
-            delete scope['@context']
-          }
-          Object.keys(scope).forEach((key) => {
-            if (_.isArray(scope[key]) && scope[key].length === 1) {
-              scope[key] = scope[key][0]
-            }
-          })
-        } else if (tag === PROP) {
-          textForProp = false
-        }
-      },
-      onerror (err) {
-        reject(err)
-      },
-      onend () {
-        resolve(topLevelScope)
+    if (attribs[this.TYPE]) {
+      if (attribs[this.PROP] && currentScope) {
+        let newScope = {}
+        currentScope[attribs[this.PROP]] = currentScope[attribs[this.PROP]] || []
+        currentScope[attribs[this.PROP]].push(newScope)
+        currentScope = newScope
+      } else {
+        currentScope = {}
+        const { type } = getType(attribs[this.TYPE])
+        this.topLevelScope[type] = this.topLevelScope[type] || []
+        this.topLevelScope[type].push(currentScope)
       }
-    })
-    parser.write(html)
-    parser.done()
-  })
+    }
+
+    if (currentScope) {
+      if (attribs[this.TYPE]) {
+        const { context, type } = getType(attribs[this.TYPE])
+        const vocab = attribs.vocab
+        currentScope['@context'] = context || vocab
+        currentScope['@type'] = type
+        tag = this.TYPE
+        this.scopes.push(currentScope)
+      } else if (attribs[this.PROP]) {
+        const value = getPropValue(tagName, attribs, this.TYPE, this.PROP)
+        if (!value) {
+          tag = this.PROP
+          currentScope[attribs[this.PROP]] = ''
+          this.textForProp = attribs[this.PROP]
+        } else {
+          currentScope[attribs[this.PROP]] = value
+        }
+      }
+    }
+    this.tags.push(tag)
+  }
+  ontext (text) {
+    if (this.textForProp) {
+      this.scopes[this.scopes.length - 1][this.textForProp] += text.trim()
+    }
+  }
+  onclosetag (tagname) {
+    const tag = this.tags.pop()
+    if (tag === this.TYPE) {
+      let scope = this.scopes.pop()
+      if (!scope['@context']) {
+        delete scope['@context']
+      }
+      Object.keys(scope).forEach((key) => {
+        if (_.isArray(scope[key]) && scope[key].length === 1) {
+          scope[key] = scope[key][0]
+        }
+      })
+    } else if (tag === this.PROP) {
+      this.textForProp = false
+    }
+  }
+  onerror (err) {
+    return this.topLevelScope
+  }
+}
+
+export default (html, specName, $) => {
+  const handler = new Handler(specName)
+  const parser = new htmlparser.Parser(handler).end(html)
+  return handler.topLevelScope
 }

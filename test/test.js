@@ -10,8 +10,8 @@ const testPage = fileReader('test/resources/testPage.html')
 let microdata, rdfa, metaTags, jsonld
 
 describe('Web Auto Extractor', function () {
-  before(async function () {
-    const result = await WAE.parse(testPage)
+  before(function () {
+    const result = WAE.parse(testPage)
     microdata = result.microdata
     rdfa = result.rdfa
     metaTags = result.metaTags
