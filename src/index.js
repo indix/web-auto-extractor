@@ -6,7 +6,6 @@ import JsonldParser from './parsers/jsonld-parser'
 
 export default {
   parse (html, $html) {
-
     if (!($html && $html.prototype && $html.prototype.cheerio)) {
       $html = $.load(html, { xmlMode: true })
     }

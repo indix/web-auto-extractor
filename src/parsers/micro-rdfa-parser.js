@@ -37,66 +37,61 @@ const getType = (typeString) => {
   }
 }
 
-class Handler {
+const createHandler = function (specName) {
+  let scopes = []
+  let tags = []
+  let topLevelScope = {}
+  let textForProp = null
+  const { TYPE, PROP } = getAttrNames(specName)
 
-  constructor (specName) {
-    this.scopes = []
-    this.tags = []
-    this.topLevelScope = {}
-    this.textForProp = null
-    const { TYPE, PROP } = getAttrNames(specName)
-    this.TYPE = TYPE
-    this.PROP = PROP
-  }
-
-  onopentag (tagName, attribs) {
-    let currentScope = this.scopes[this.scopes.length - 1]
+  const onopentag = function (tagName, attribs) {
+    let currentScope = scopes[scopes.length - 1]
     let tag = false
 
-    if (attribs[this.TYPE]) {
-      if (attribs[this.PROP] && currentScope) {
+    if (attribs[TYPE]) {
+      if (attribs[PROP] && currentScope) {
         let newScope = {}
-        currentScope[attribs[this.PROP]] = currentScope[attribs[this.PROP]] || []
-        currentScope[attribs[this.PROP]].push(newScope)
+        currentScope[attribs[PROP]] = currentScope[attribs[PROP]] || []
+        currentScope[attribs[PROP]].push(newScope)
         currentScope = newScope
       } else {
         currentScope = {}
-        const { type } = getType(attribs[this.TYPE])
-        this.topLevelScope[type] = this.topLevelScope[type] || []
-        this.topLevelScope[type].push(currentScope)
+        const { type } = getType(attribs[TYPE])
+        topLevelScope[type] = topLevelScope[type] || []
+        topLevelScope[type].push(currentScope)
       }
     }
 
     if (currentScope) {
-      if (attribs[this.TYPE]) {
-        const { context, type } = getType(attribs[this.TYPE])
+      if (attribs[TYPE]) {
+        const { context, type } = getType(attribs[TYPE])
         const vocab = attribs.vocab
         currentScope['@context'] = context || vocab
         currentScope['@type'] = type
-        tag = this.TYPE
-        this.scopes.push(currentScope)
-      } else if (attribs[this.PROP]) {
-        const value = getPropValue(tagName, attribs, this.TYPE, this.PROP)
+        tag = TYPE
+        scopes.push(currentScope)
+      } else if (attribs[PROP]) {
+        const value = getPropValue(tagName, attribs, TYPE, PROP)
         if (!value) {
-          tag = this.PROP
-          currentScope[attribs[this.PROP]] = ''
-          this.textForProp = attribs[this.PROP]
+          tag = PROP
+          currentScope[attribs[PROP]] = ''
+          textForProp = attribs[PROP]
         } else {
-          currentScope[attribs[this.PROP]] = value
+          currentScope[attribs[PROP]] = value
         }
       }
     }
-    this.tags.push(tag)
+    tags.push(tag)
   }
-  ontext (text) {
-    if (this.textForProp) {
-      this.scopes[this.scopes.length - 1][this.textForProp] += text.trim()
+  const ontext = function (text) {
+    if (textForProp) {
+      scopes[scopes.length - 1][textForProp] += text.trim()
     }
   }
-  onclosetag (tagname) {
-    const tag = this.tags.pop()
-    if (tag === this.TYPE) {
-      let scope = this.scopes.pop()
+  const onclosetag = function (tagname) {
+    const tag = tags.pop()
+    if (tag === TYPE) {
+      let scope = scopes.pop()
       if (!scope['@context']) {
         delete scope['@context']
       }
@@ -105,17 +100,21 @@ class Handler {
           scope[key] = scope[key][0]
         }
       })
-    } else if (tag === this.PROP) {
-      this.textForProp = false
+    } else if (tag === PROP) {
+      textForProp = false
     }
   }
-  onerror (err) {
-    return this.topLevelScope
+
+  return {
+    onopentag,
+    ontext,
+    onclosetag,
+    topLevelScope
   }
 }
 
 export default (html, specName, $) => {
-  const handler = new Handler(specName)
-  const parser = new htmlparser.Parser(handler).end(html)
+  const handler = createHandler(specName)
+  new htmlparser.Parser(handler).end(html)
   return handler.topLevelScope
 }
