@@ -1,34 +1,15 @@
 import _ from 'lodash'
 
-const normalize = (items) => {
-  return Object.keys(items).reduce((normalizedItems, itemName) => {
-    normalizedItems[itemName] = items[itemName].map(({ value }) => value)
-    return normalizedItems
-  }, {})
-}
-
 export default ($) => {
-  let parsedMetaItems = {}
+  let metatagsData = {}
   $('meta').each((index, elem) => {
     const nameKey = _.find(_.keys(elem.attribs), attr => [ 'name', 'property', 'itemprop' ].indexOf(attr) !== -1)
     const name = elem.attribs[nameKey]
     const value = elem.attribs['content']
-    if (!parsedMetaItems[name]) {
-      parsedMetaItems[name] = []
+    if (!metatagsData[name]) {
+      metatagsData[name] = []
     }
-    parsedMetaItems[name].push({
-      value,
-      selector: {
-        select: `meta[${nameKey}="${name}"]:eq(${parsedMetaItems[name].length})`,
-        extract: {
-          attr: 'content'
-        }
-      }
-    })
+    metatagsData[name].push(value)
   })
-  const data = normalize(parsedMetaItems)
-  return {
-    data,
-    unnormalizedData: parsedMetaItems
-  }
+  return metatagsData
 }

@@ -7,16 +7,9 @@ import WAE from '../src'
 const fileReader = (fileName) => fs.readFileSync(fileName, { encoding: 'utf-8' })
 const expectedResult = JSON.parse(fileReader('test/resources/expectedResult.json'))
 const testPage = fileReader('test/resources/testPage.html')
-let microdata, rdfa, metaTags, jsonld
+const { microdata, rdfa, metatags, jsonld } = WAE.parse(testPage)
 
 describe('Web Auto Extractor', function () {
-  before(function () {
-    const result = WAE.parse(testPage)
-    microdata = result.microdata
-    rdfa = result.rdfa
-    metaTags = result.metaTags
-    jsonld = result.jsonld
-  })
   it('should find all elements with microdata', function () {
     assert.deepEqual(microdata, expectedResult.microdata)
   })
@@ -30,6 +23,6 @@ describe('Web Auto Extractor', function () {
   })
 
   it('should find embedded meta tags', function () {
-    assert.deepEqual(metaTags, expectedResult.metaTags)
+    assert.deepEqual(metatags, expectedResult.metatags)
   })
 })

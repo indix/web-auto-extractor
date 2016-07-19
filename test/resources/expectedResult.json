@@ -1,33 +1,9 @@
 {
-  "metaTags": {
-    "data": {
-      "priceCurrency": [
-        "USD",
-        "USD"
-      ]
-    },
-    "unnormalizedData": {
-      "priceCurrency": [
-        {
-          "value": "USD",
-          "selector": {
-            "select": "meta[itemprop=\"priceCurrency\"]:eq(0)",
-            "extract": {
-              "attr": "content"
-            }
-          }
-        },
-        {
-          "value": "USD",
-          "selector": {
-            "select": "meta[property=\"priceCurrency\"]:eq(1)",
-            "extract": {
-              "attr": "content"
-            }
-          }
-        }
-      ]
-    }
+  "metatags": {
+    "priceCurrency": [
+      "USD",
+      "USD"
+    ]
   },
   "microdata": {
     "Product": [
