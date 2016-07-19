@@ -113,7 +113,7 @@ const createHandler = function (specName) {
   }
 }
 
-export default (html, specName, $) => {
+export default (html, specName) => {
   const handler = createHandler(specName)
   new htmlparser.Parser(handler).end(html)
   return handler.topLevelScope

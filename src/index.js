@@ -12,8 +12,8 @@ export default {
 
     return {
       metatags: MetaTagsParser($html),
-      microdata: MicroRdfaParser(html, 'micro', $html),
-      rdfa: MicroRdfaParser(html, 'rdfa', $html),
+      microdata: MicroRdfaParser(html, 'micro'),
+      rdfa: MicroRdfaParser(html, 'rdfa'),
       jsonld: JsonldParser($html)
     }
   }
