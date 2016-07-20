@@ -4,10 +4,16 @@ import MetaTagsParser from './parsers/metatag-parser'
 import MicroRdfaParser from './parsers/micro-rdfa-parser'
 import JsonldParser from './parsers/jsonld-parser'
 
-export default {
-  parse (html, $html) {
+export default function () {
+  let $html = null
+
+  const loadCheerioObject = function (_$html) {
+    $html = _$html
+  }
+
+  const parse = function (html, options) {
     if (!($html && $html.prototype && $html.prototype.cheerio)) {
-      $html = $.load(html, { xmlMode: true })
+      $html = $.load(html, options)
     }
 
     return {
@@ -16,5 +22,10 @@ export default {
       rdfa: MicroRdfaParser(html, 'rdfa'),
       jsonld: JsonldParser($html)
     }
+  }
+
+  return {
+    parse,
+    loadCheerioObject
   }
 }

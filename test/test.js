@@ -7,7 +7,7 @@ import WAE from '../src'
 const fileReader = (fileName) => fs.readFileSync(fileName, { encoding: 'utf-8' })
 const expectedResult = JSON.parse(fileReader('test/resources/expectedResult.json'))
 const testPage = fileReader('test/resources/testPage.html')
-const { microdata, rdfa, metatags, jsonld } = WAE.parse(testPage)
+const { microdata, rdfa, metatags, jsonld } = WAE().parse(testPage)
 
 describe('Web Auto Extractor', function () {
   it('should find all elements with microdata', function () {
