@@ -3,22 +3,18 @@ import $ from 'cheerio'
 
 export default function (html, config = {}) {
   const $html = getCheerioObject(html)
-  let jsonldData = []
+  let jsonldData = {}
 
   $html('script[type="application/ld+json"]').each((index, item) => {
     try {
-      jsonldData[index] = JSON.parse($(item).text())
+      const parsedJSON = JSON.parse($(item).text())
+      const type = parsedJSON['@type']
+      jsonldData[type] = jsonldData[type] || []
+      jsonldData[type].push(parsedJSON)
     } catch (e) {
       console.log(`Error in jsonld parse - ${e}`)
     }
   })
 
-  return {
-    data: () => {
-      return jsonldData
-    },
-    unnormalizedData: () => {
-      return jsonldData
-    }
-  }
+  return jsonldData
 }

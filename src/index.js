@@ -1,70 +1,31 @@
+import 'babel-polyfill'
 import $ from 'cheerio'
 import MetaTagsParser from './parsers/metatag-parser'
 import MicroRdfaParser from './parsers/micro-rdfa-parser'
 import JsonldParser from './parsers/jsonld-parser'
 
-const WAEParserObject = () => {
-  let result = {}
-  return {
-    find (propName) {
-      if (!result[propName]) {
-        result[propName] = []
-        const items = this.unnormalizedData()
-        Object.keys(items).forEach(key => {
-          const item = items[key]
-          if (item.name === propName) {
-            result[propName].push(item)
-          }
-        })
-      }
-      return result[propName]
+export default function () {
+  let $html = null
+
+  const loadCheerioObject = function (_$html) {
+    $html = _$html
+  }
+
+  const parse = function (html, options) {
+    if (!($html && $html.prototype && $html.prototype.cheerio)) {
+      $html = $.load(html, options)
+    }
+
+    return {
+      metatags: MetaTagsParser($html),
+      microdata: MicroRdfaParser(html, 'micro'),
+      rdfa: MicroRdfaParser(html, 'rdfa'),
+      jsonld: JsonldParser($html)
     }
   }
-}
 
-const WAEObject = () => {
-  let micro, rdfa, jsonld, meta
   return {
-    parseMicrodata () {
-      if (!micro) {
-        micro = Object.assign(WAEParserObject(), MicroRdfaParser(this.$html, 'micro'))
-      }
-      return micro
-    },
-    parseRdfa () {
-      if (!rdfa) {
-        rdfa = Object.assign(WAEParserObject(), MicroRdfaParser(this.$html, 'rdfa'))
-      }
-      return rdfa
-    },
-    parseJsonld () {
-      if (!jsonld) {
-        jsonld = Object.assign(WAEParserObject(), JsonldParser(this.$html))
-      }
-      return jsonld
-    },
-    parseMetaTags () {
-      if (!meta) {
-        meta = Object.assign(WAEParserObject(), MetaTagsParser(this.$html))
-      }
-      return meta
-    },
-    parse () {
-      return {
-        meta: this.parseMetaTags().data(),
-        micro: this.parseMicrodata().data(),
-        rdfa: this.parseRdfa().data(),
-        jsonld: this.parseJsonld().data()
-      }
-    }
-  }
-}
-
-export default {
-  init (html) {
-    const $html = $.load(html, { xmlMode: true })
-    return Object.assign({}, WAEObject(), {
-      $html
-    })
+    parse,
+    loadCheerioObject
   }
 }

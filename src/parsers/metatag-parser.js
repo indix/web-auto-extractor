@@ -1,54 +1,15 @@
 import _ from 'lodash'
 
-const normalize = (items) => {
-  let normalizedItems = {}
-  items.map(item => {
-    const { name, value } = item
-    if (normalizedItems[name]) {
-      if (_.isArray(normalizedItems[name])) {
-        normalizedItems[name].push(value)
-      } else {
-        normalizedItems[name] = [
-          normalizedItems[name],
-          value
-        ]
-      }
-    } else {
-      normalizedItems[name] = value
-    }
-  })
-  return normalizedItems
-}
-
 export default ($) => {
-  let parsedMetaItems = []
+  let metatagsData = {}
   $('meta').each((index, elem) => {
-    const nameKey = _.find(_.keys(elem.attribs), attr => attr !== 'content')
+    const nameKey = _.find(_.keys(elem.attribs), attr => [ 'name', 'property', 'itemprop' ].indexOf(attr) !== -1)
     const name = elem.attribs[nameKey]
     const value = elem.attribs['content']
-    parsedMetaItems.push({
-      name,
-      value,
-      selector: {
-        select: `meta[${nameKey}="${name}"]`,
-        extract: {
-          attr: 'content'
-        }
-      }
-    })
-  })
-  return (function () {
-    let cachedData = null
-    return {
-      data: () => {
-        if (!cachedData) {
-          cachedData = normalize(parsedMetaItems)
-        }
-        return cachedData
-      },
-      unnormalizedData: () => {
-        return parsedMetaItems
-      }
+    if (!metatagsData[name]) {
+      metatagsData[name] = []
     }
-  })()
+    metatagsData[name].push(value)
+  })
+  return metatagsData
 }

@@ -1,57 +1,18 @@
-import $ from 'cheerio'
-import md5 from 'md5'
-import { getCheerioObject } from './utils'
+import htmlparser from 'htmlparser2'
 import _ from 'lodash'
 
-function getPropValue (itemPropElement, TYPE, PROP) {
-  let value, attr
-  if ($(itemPropElement).attr(`${TYPE}`)) {
-    value = null
-    attr = null
-  } else if (itemPropElement.tagName === 'a' || itemPropElement.tagName === 'link') {
-    value = $(itemPropElement).attr('href').trim()
-    attr = 'href'
-  } else if ($(itemPropElement).attr('content')) {
-    value = $(itemPropElement).attr('content').trim()
-    attr = 'content'
-  } else if ($(itemPropElement).attr(`${PROP}`) === 'image' && $(itemPropElement).attr('src')) {
-    value = $(itemPropElement).attr('src').trim()
-    attr = 'src'
+function getPropValue (tagName, attribs, TYPE, PROP) {
+  if (attribs[TYPE]) {
+    return null
+  } else if (tagName === 'a' || tagName === 'link') {
+    return attribs.href.trim()
+  } else if (attribs.content) {
+    return attribs.content.trim()
+  } else if (attribs[PROP] === 'image' && attribs.src) {
+    return attribs.src.trim()
   } else {
-    value = $(itemPropElement).text().trim()
-    attr = '@text'
+    return null
   }
-  return {
-    value,
-    attr
-  }
-}
-
-const normalize = (items, idList = []) => {
-  if (idList.length === 0) {
-    idList = Object.keys(items).filter(id =>
-      items[id].parentTypeId === null)
-  }
-  return idList.map(id => {
-    const { context, type, value, properties } = items[id]
-    if (!type) {
-      return value
-    }
-    let normalizedProperties = {}
-    Object.keys(properties).map(key => {
-      let propValue = normalize(items, properties[key])
-      if (propValue.length === 1) {
-        normalizedProperties[key] = propValue[0]
-      } else if (propValue.length > 1) {
-        normalizedProperties[key] = propValue
-      }
-    })
-    return _.pickBy({
-      '@context': context,
-      '@type': type,
-      ...normalizedProperties
-    }, (val) => !_.isUndefined(val))
-  })
 }
 
 const getAttrNames = (specName) => {
@@ -76,72 +37,84 @@ const getType = (typeString) => {
   }
 }
 
-export default (html, specName) => {
+const createHandler = function (specName) {
+  let scopes = []
+  let tags = []
+  let topLevelScope = {}
+  let textForProp = null
   const { TYPE, PROP } = getAttrNames(specName)
-  const $html = getCheerioObject(html)
 
-  let items = {}
+  const onopentag = function (tagName, attribs) {
+    let currentScope = scopes[scopes.length - 1]
+    let tag = false
 
-  $html(`[${TYPE}], [${PROP}]`).each((idx, itemElement) => {
-    const itemElementId = $(itemElement).attr('id')
-    const id = md5($.html($(itemElement)))
-    const parentTypeHtml = $.html($(itemElement).parent().closest(`[${TYPE}]`))
-    const parentTypeId = (parentTypeHtml) ? md5(parentTypeHtml) : null
-    const isProp = $(itemElement).attr(`${PROP}`) !== undefined
-    const typeString = $(itemElement).attr(`${TYPE}`)
-    const vocab = $(itemElement).attr('vocab')
-    const { context, type } = typeString ? getType(typeString) : {}
-    const name = (isProp) ? $(itemElement).attr(`${PROP}`) : type
-    const { value, attr } = getPropValue(itemElement, TYPE, PROP)
-    const processCssSelector = () => {
-      const relativeIndexPosition = parentTypeId ? items[parentTypeId].properties[name].length : 0
-      const parentSelector = parentTypeId ? items[parentTypeId].selector.select + ' ' : ''
-      const relativeSelector = ((isProp)
-                                ? `[${PROP}="${name}"]`
-                                : `[${TYPE}="${typeString}"]`
-                              ) + `:eq(${relativeIndexPosition})`
-      return itemElementId ? `#${itemElementId}` : `${parentSelector}${relativeSelector}`
+    if (attribs[TYPE]) {
+      if (attribs[PROP] && currentScope) {
+        let newScope = {}
+        currentScope[attribs[PROP]] = currentScope[attribs[PROP]] || []
+        currentScope[attribs[PROP]].push(newScope)
+        currentScope = newScope
+      } else {
+        currentScope = {}
+        const { type } = getType(attribs[TYPE])
+        topLevelScope[type] = topLevelScope[type] || []
+        topLevelScope[type].push(currentScope)
+      }
     }
 
-    if (parentTypeId) {
-      if (!items[parentTypeId]) {
-        items[parentTypeId] = { properties: {} }
-      }
-      if (!items[parentTypeId].properties[name]) {
-        items[parentTypeId].properties[name] = []
-      }
-      items[parentTypeId].properties[name].push(id)
-    }
-
-    items[id] = _.pickBy({
-      context: vocab || context,
-      type,
-      name,
-      value,
-      properties: {},
-      parentTypeId,
-      selector: {
-        select: processCssSelector(),
-        extract: {
-          attr
+    if (currentScope) {
+      if (attribs[TYPE]) {
+        const { context, type } = getType(attribs[TYPE])
+        const vocab = attribs.vocab
+        currentScope['@context'] = context || vocab
+        currentScope['@type'] = type
+        tag = TYPE
+        scopes.push(currentScope)
+      } else if (attribs[PROP]) {
+        const value = getPropValue(tagName, attribs, TYPE, PROP)
+        if (!value) {
+          tag = PROP
+          currentScope[attribs[PROP]] = ''
+          textForProp = attribs[PROP]
+        } else {
+          currentScope[attribs[PROP]] = value
         }
-      },
-      ...items[id]
-    }, (val) => !_.isUndefined(val))
-  })
-
-  return (function () {
-    let cachedData = null
-    return {
-      data: () => {
-        if (!cachedData) {
-          cachedData = normalize(items)
-        }
-        return cachedData
-      },
-      unnormalizedData: () => {
-        return items
       }
     }
-  })()
+    tags.push(tag)
+  }
+  const ontext = function (text) {
+    if (textForProp) {
+      scopes[scopes.length - 1][textForProp] += text.trim()
+    }
+  }
+  const onclosetag = function (tagname) {
+    const tag = tags.pop()
+    if (tag === TYPE) {
+      let scope = scopes.pop()
+      if (!scope['@context']) {
+        delete scope['@context']
+      }
+      Object.keys(scope).forEach((key) => {
+        if (_.isArray(scope[key]) && scope[key].length === 1) {
+          scope[key] = scope[key][0]
+        }
+      })
+    } else if (tag === PROP) {
+      textForProp = false
+    }
+  }
+
+  return {
+    onopentag,
+    ontext,
+    onclosetag,
+    topLevelScope
+  }
+}
+
+export default (html, specName) => {
+  const handler = createHandler(specName)
+  new htmlparser.Parser(handler).end(html)
+  return handler.topLevelScope
 }

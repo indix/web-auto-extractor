@@ -1,6 +1,6 @@
 {
   "name": "web-auto-extractor",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Automatically extracts structured information from webpages",
   "main": "dist/index.js",
   "scripts": {
@@ -17,6 +17,7 @@
   "dependencies": {
     "babel-polyfill": "^6.8.0",
     "cheerio": "^0.20.0",
+    "htmlparser2": "^3.9.1",
     "lodash": "^4.12.0",
     "md5": "^2.1.0"
   },
