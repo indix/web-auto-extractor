@@ -1,6 +1,6 @@
 {
   "name": "web-auto-extractor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Automatically extracts structured information from webpages",
   "main": "dist/index.js",
   "scripts": {
@@ -18,8 +18,7 @@
     "babel-polyfill": "^6.8.0",
     "cheerio": "^0.20.0",
     "htmlparser2": "^3.9.1",
-    "lodash": "^4.12.0",
-    "md5": "^2.1.0"
+    "lodash": "^4.12.0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
@@ -43,10 +42,10 @@
     "parser",
     "html parser",
     "schema.org",
-    "schema",
     "microdata",
     "rdfa",
-    "jsonld"
+    "jsonld",
+    "seo"
   ],
   "repository": {
     "type": "git",

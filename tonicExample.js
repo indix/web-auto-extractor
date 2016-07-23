@@ -11,6 +11,6 @@ request(pageUrl, function (error, response, body) {
 
   var parsed = wae.parse(body)
 
-  console.log(wae)
+  console.log(parsed)
 
 })
