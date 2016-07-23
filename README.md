@@ -1,47 +1,36 @@
 # Web Auto Extractor
 [![Build Status](https://travis-ci.org/ind9/web-auto-extractor.svg?branch=master)](https://travis-ci.org/ind9/web-auto-extractor)
 
-Automatically extracts semantically structured information from any HTML webpage.
+Parse semantically structured information from any HTML webpage.
 
 Supported formats:-
-- Formats that support Schema.org vocabularies:-
+- Encodings that support [Schema.org](http://schema.org/) vocabularies:-
   - Microdata
   - RDFa-lite
   - JSON-LD
-- Miscellaneous meta tags
+- Random Meta tags
+
+Popularly, many websites mark up their webpages with Schema.org vocabularies for better SEO. This library helps you parse that information to JSON.
 
 **[Demo](https://tonicdev.com/npm/web-auto-extractor)** it on tonicdev
 
-```js
-var WAE = require('web-auto-extractor').default
-//ES6: import WAE from 'web-auto-extractor'
-var wae = WAE.parse(sampleHTML)
-console.log(wae)
-  /*
-    OUTPUT
-    ======
-    {
-      microdata: { data: {..}, unnormalizedData: {..} },
-      rdfa: { data: {..}, unnormalizedData: {..} },
-      jsonld: { data: {..}, unnormalizedData: null,
-      metaTags: { data: {..}, unnormalizedData: {..} }
-    }
-  */
-```
-
-### Installation
+## Installation
 `npm install web-auto-extractor`
 
+## Usage
 
-### Usage
-
-#### Import
 ```js
-> var WAE = require('web-auto-extractor').default
-//ES6: import WAE from 'web-auto-extractor'
+// IF CommonJS
+var WAE = require('web-auto-extractor').default
+// IF ES6
+import WAE from 'web-auto-extractor'
+
+var parsed = WAE().parse(sampleHTML)
+
 ```
 
-Lets use this `sampleHTML` for our example
+Let's use the following text as the `sampleHTML` in our example. It uses Schema.org vocabularies to structure a Product information and is encoded in `microdata` format.
+
 ```html
 <div itemscope itemtype="http://schema.org/Product">
   <span itemprop="brand">ACME</span>
@@ -73,67 +62,80 @@ Lets use this `sampleHTML` for our example
 </div>
 ```
 
-#### Parsing
-```js
-> var wae = WAE.parse(sampleHTML)
-```
-This returns an object with the following attributes, each of which is of the type [WAEParserObject](#waeparserobject-attributes).
+#### Result
 
-- microdata
-- rdfa
-- jsonld
-- metaTags
+Our `parsed` object should look like -
 
-```js
-// Since our sampleHTML uses microdata
-> var parsedMicrodata = wae.microdata
-```
-
-##### WAEParserObject Attributes
-
-###### .data
-Gets the normalized result of the parsed format.
-
-```js
-// Let's print this out for our example
-> parsedMicrodata.data
-```
-OUTPUT:
 ```json
-[
-  {
-    "@context": "http://schema.org/",
-    "@type": "Product",
-    "brand": "ACME",
-    "name": "Executive Anvil",
-    "image": "anvil_executive.jpg",
-    "description": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
-    "mpn": "925872",
-    "aggregateRating": {
-      "@context": "http://schema.org/",
-      "@type": "AggregateRating",
-      "ratingValue": "4.4",
-      "reviewCount": "89"
-    },
-    "offers": {
-      "@context": "http://schema.org/",
-      "@type": "Offer",
-      "priceCurrency": "USD",
-      "price": "119.99",
-      "priceValidUntil": "5 November!",
-      "seller": {
+{
+  "microdata": {
+    "Product": [
+      {
         "@context": "http://schema.org/",
-        "@type": "Organization",
-        "name": "Executive Objects"
-      },
-      "itemCondition": "http://schema.org/UsedCondition",
-      "availability": "http://schema.org/InStock"
-    }
+        "@type": "Product",
+        "brand": "ACME",
+        "name": "Executive Anvil",
+        "image": "anvil_executive.jpg",
+        "description": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
+        "mpn": "925872",
+        "aggregateRating": {
+          "@context": "http://schema.org/",
+          "@type": "AggregateRating",
+          "ratingValue": "4.4",
+          "reviewCount": "89"
+        },
+        "offers": {
+          "@context": "http://schema.org/",
+          "@type": "Offer",
+          "priceCurrency": "USD",
+          "price": "119.99",
+          "priceValidUntil": "5 November!",
+          "seller": {
+            "@context": "http://schema.org/",
+            "@type": "Organization",
+            "name": "Executive Objects"
+          },
+          "itemCondition": "http://schema.org/UsedCondition",
+          "availability": "http://schema.org/InStock"
+        }
+      }
+    ]
+  },
+  "rdfa": {},
+  "jsonld": {},
+  "metatags": {
+    "priceCurrency": [
+      "USD",
+      "USD"
+    ]
   }
-]
+}
 ```
 
-###### .unnormalizedData
-Gets the unnormalized flattened intermediate result of the parsed format which includes meta information relating to the parsed properties.
+The `parsed` object includes four objects - `microdata`, `rdfa`, `jsonld` and `metatags`. Since the above HTML does not have any information encoded in `rdfa` and `jsonld`, those two objects are empty.
 
-For more examples, [See this output here](https://github.com/ind9/web-auto-extractor/blob/master/test/resources/expectedResult.json) which uses [this HTML](https://github.com/ind9/web-auto-extractor/blob/master/test/resources/testPage.html)
+## Caveat
+
+I wouldn't call it a caveat but rather the parser is strict by design. It might not parse like expected if the HTML isn't encoded correctly, so one might assume the parser is broken.
+
+For example, take the following HTML snippet.
+
+```html
+<div itemscope itemtype="http://schema.org/Movie">
+  <h1 itemprop="name">Ghostbusters</h1>
+  <div itemprop="productionCompany" itemscope itemtype="http://schema.org/Organization">Black Rhino</div>
+  <div itemprop="countryOfOrigin" itemscope itemtype="http://schema.org/Country">
+    Country: <span itemprop="name" content="USA">United States</span><p>
+  </div>
+</div>
+```
+
+The problem here is the `itemprop` - `productionCompany` which is of `itemtype` - `Organization` doesn't have any `itemprop` as its children, in this case - `name`.
+
+The parser assumes every `itemtype` contains an `itemprop`, or every `typeof` contains a `property` in case of `rdfa`. So the `"Black Rhino"` information is lost.
+
+It'll be nice to fix this by having a `non-strict` mode for parsing this information. PRs are welcome.
+
+## License
+
+MIT
