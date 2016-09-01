@@ -71,13 +71,26 @@ const createHandler = function (specName) {
         tag = TYPE
         scopes.push(currentScope)
       } else if (attribs[PROP]) {
-        const value = getPropValue(tagName, attribs, TYPE, PROP)
+        if(currentScope[attribs[PROP]] && !Array.isArray(currentScope[attribs[PROP]])) {
+          //PROP occurs for the second time. storing it as an array
+          currentScope[attribs[PROP]] = [currentScope[attribs[PROP]]];
+        }
+
+        var value = getPropValue(tagName, attribs, TYPE, PROP);
         if (!value) {
-          tag = PROP
-          currentScope[attribs[PROP]] = ''
+          tag = PROP;
+          if(Array.isArray(currentScope[attribs[PROP]])) {
+            currentScope[attribs[PROP]].push('')
+          } else {
+            currentScope[attribs[PROP]] = ''
+          }
           textForProp = attribs[PROP]
         } else {
-          currentScope[attribs[PROP]] = value
+          if(Array.isArray(currentScope[attribs[PROP]])) {
+            currentScope[attribs[PROP]].push(value)
+          } else {
+            currentScope[attribs[PROP]] = value
+          }
         }
       }
     }
@@ -85,7 +98,11 @@ const createHandler = function (specName) {
   }
   const ontext = function (text) {
     if (textForProp) {
-      scopes[scopes.length - 1][textForProp] += text.trim()
+      if(Array.isArray(scopes[scopes.length - 1][textForProp])) {
+        scopes[scopes.length - 1][textForProp][scopes[scopes.length - 1][textForProp].length - 1] += text.trim()
+      } else {
+        scopes[scopes.length - 1][textForProp] += text.trim()
+      }
     }
   }
   const onclosetag = function (tagname) {
