@@ -71,22 +71,22 @@ const createHandler = function (specName) {
         tag = TYPE
         scopes.push(currentScope)
       } else if (attribs[PROP]) {
-        if(currentScope[attribs[PROP]] && !Array.isArray(currentScope[attribs[PROP]])) {
-          //PROP occurs for the second time. storing it as an array
-          currentScope[attribs[PROP]] = [currentScope[attribs[PROP]]];
+        if (currentScope[attribs[PROP]] && !Array.isArray(currentScope[attribs[PROP]])) {
+          // PROP occurs for the second time, storing it as an array
+          currentScope[attribs[PROP]] = [currentScope[attribs[PROP]]]
         }
 
-        var value = getPropValue(tagName, attribs, TYPE, PROP);
+        var value = getPropValue(tagName, attribs, TYPE, PROP)
         if (!value) {
-          tag = PROP;
-          if(Array.isArray(currentScope[attribs[PROP]])) {
+          tag = PROP
+          if (Array.isArray(currentScope[attribs[PROP]])) {
             currentScope[attribs[PROP]].push('')
           } else {
             currentScope[attribs[PROP]] = ''
           }
           textForProp = attribs[PROP]
         } else {
-          if(Array.isArray(currentScope[attribs[PROP]])) {
+          if (Array.isArray(currentScope[attribs[PROP]])) {
             currentScope[attribs[PROP]].push(value)
           } else {
             currentScope[attribs[PROP]] = value
@@ -98,7 +98,7 @@ const createHandler = function (specName) {
   }
   const ontext = function (text) {
     if (textForProp) {
-      if(Array.isArray(scopes[scopes.length - 1][textForProp])) {
+      if (Array.isArray(scopes[scopes.length - 1][textForProp])) {
         scopes[scopes.length - 1][textForProp][scopes[scopes.length - 1][textForProp].length - 1] += text.trim()
       } else {
         scopes[scopes.length - 1][textForProp] += text.trim()
