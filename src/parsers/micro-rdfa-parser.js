@@ -4,7 +4,7 @@ import _ from 'lodash'
 function getPropValue (tagName, attribs, TYPE, PROP) {
   if (attribs[TYPE]) {
     return null
-  } else if (tagName === 'a' || tagName === 'link') {
+  } else if ((tagName === 'a' || tagName === 'link') && attribs.href) {
     return attribs.href.trim()
   } else if (attribs.content) {
     return attribs.content.trim()
