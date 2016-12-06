@@ -7,10 +7,15 @@ export default function (html, config = {}) {
 
   $html('script[type="application/ld+json"]').each((index, item) => {
     try {
-      const parsedJSON = JSON.parse($(item).text())
-      const type = parsedJSON['@type']
-      jsonldData[type] = jsonldData[type] || []
-      jsonldData[type].push(parsedJSON)
+      let parsedJSON = JSON.parse($(item).text())
+      if (!Array.isArray(parsedJSON)) {
+        parsedJSON = [parsedJSON]
+      }
+      parsedJSON.forEach(obj => {
+        const type = obj['@type']
+        jsonldData[type] = jsonldData[type] || []
+        jsonldData[type].push(obj)
+      })
     } catch (e) {
       console.log(`Error in jsonld parse - ${e}`)
     }
