@@ -1,5 +1,4 @@
 import htmlparser from 'htmlparser2'
-import _ from 'lodash'
 
 function getPropValue (tagName, attribs, TYPE, PROP) {
   if (attribs[TYPE]) {
@@ -113,7 +112,7 @@ const createHandler = function (specName) {
         delete scope['@context']
       }
       Object.keys(scope).forEach((key) => {
-        if (_.isArray(scope[key]) && scope[key].length === 1) {
+        if (Array.isArray(scope[key]) && scope[key].length === 1) {
           scope[key] = scope[key][0]
         }
       })
