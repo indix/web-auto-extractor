@@ -48,10 +48,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ind9/web-auto-extractor.git"
+    "url": "https://github.com/indix/web-auto-extractor.git"
   },
   "bugs": {
-    "url": "https://github.com/ind9/web-auto-extractor/issues"
+    "url": "https://github.com/indix/web-auto-extractor/issues"
   },
   "tonicExampleFilename": "tonicExample.js"
 }
