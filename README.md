@@ -1,5 +1,5 @@
 # Web Auto Extractor
-[![Build Status](https://travis-ci.org/ind9/web-auto-extractor.svg?branch=master)](https://travis-ci.org/ind9/web-auto-extractor)
+[![Build Status](https://travis-ci.org/indix/web-auto-extractor.svg?branch=master)](https://travis-ci.org/indix/web-auto-extractor)
 
 Parse semantically structured information from any HTML webpage.
 
