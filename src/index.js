@@ -6,6 +6,9 @@ if (!global._babelPolyfill) {
   require('babel-polyfill')
 }
 
+if(!global._babelPolyfill)
+  import 'babel-polyfill'
+
 export default function () {
   let $html = null
 
