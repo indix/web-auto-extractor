@@ -17,7 +17,7 @@ Popularly, many websites mark up their webpages with Schema.org vocabularies for
 ## Installation
 `npm install web-auto-extractor`
 
-## Usage
+## [Usage](#usage)
 
 ```js
 // IF CommonJS
@@ -31,6 +31,7 @@ var parsed = WAE().parse(sampleHTML)
 
 Let's use the following text as the `sampleHTML` in our example. It uses Schema.org vocabularies to structure a Product information and is encoded in `microdata` format.
 
+#### [Input](#input)
 ```html
 <div itemscope itemtype="http://schema.org/Product">
   <span itemprop="brand">ACME</span>
@@ -62,7 +63,7 @@ Let's use the following text as the `sampleHTML` in our example. It uses Schema.
 </div>
 ```
 
-#### Result
+#### [Output](#output)
 
 Our `parsed` object should look like -
 
