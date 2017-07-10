@@ -29,10 +29,28 @@ const getAttrNames = (specName) => {
 }
 
 const getType = (typeString) => {
-  const match = (/(.*\/)(\w+)/g).exec(typeString)
+  let contexts = []
+  let types = []
+  for (const typeString of typeString.split(' ')) {
+    const match = (/([^ ]*\/)(\w+)/g).exec(typeString)
+    let context = match && match[1] ? match[1] : undefined
+    let type = match && match[2] ? match[2] : typeString
+    if (!contexts.includes(context)) {
+      contexts.push(context)
+    }
+    if (!types.includes(type)) {
+      types.push(type)
+    }
+  }
+  if (contexts.length < 2) {
+    contexts = contexts[0]
+  }
+  if (types.length < 2) {
+    types = types[0]
+  }
   return {
-    context: match && match[1] ? match[1] : undefined,
-    type: match && match[2] ? match[2] : typeString
+    context: contexts,
+    type: types
   }
 }
 
