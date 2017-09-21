@@ -16,6 +16,9 @@
     "interactionType": [
       "http://schema.org/CommentAction"
     ],
+    "refresh": [
+       "30"
+    ],
     "userInteractionCount": [
       "140"
     ]
