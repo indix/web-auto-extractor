@@ -51,7 +51,11 @@ const createHandler = function (specName) {
       if (attribs[PROP] && currentScope) {
         let newScope = {}
         currentScope[attribs[PROP]] = currentScope[attribs[PROP]] || []
-        currentScope[attribs[PROP]].push(newScope)
+        if (Array.isArray(currentScope[attribs[PROP]])) {
+          currentScope[attribs[PROP]].push(value);
+        } else {
+          currentScope[attribs[PROP]] = value;
+        }
         currentScope = newScope
       } else {
         currentScope = {}
