@@ -31,7 +31,7 @@
         "brand": "ACME",
         "name": "Executive Anvil",
         "image": "anvil_executive.jpg",
-        "description": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
+        "description": "Sleeker than ACME's Classic Anvil, the Executive Anvil is perfect for the business traveler looking for something to drop from a height.",
         "mpn": "925872",
         "aggregateRating": {
           "@context": "http://schema.org/",
@@ -63,7 +63,7 @@
         "author": "John Smith",
         "datePublished": "2009-05-08",
         "image": "bananabread.jpg",
-        "description": "This classic banana bread recipe comes\n  from my mom -- the walnuts add a nice texture and flavor to the banana\n  bread.",
+        "description": "This classic banana bread recipe comes from my mom -- the walnuts add a nice texture and flavor to the banana bread.",
         "prepTime": "PT15M",
         "cookTime": "PT1H",
         "recipeYield": "1 loaf",
@@ -79,7 +79,7 @@
           "1 egg",
           "3/4 cup of sugar"
         ],
-        "recipeInstructions": "Preheat the oven to 350 degrees. Mix in the ingredients in a bowl. Add\n  the flour last. Pour the mixture into a loaf pan and bake for one hour.",
+        "recipeInstructions": "Preheat the oven to 350 degrees. Mix in the ingredients in a bowl. Add the flour last. Pour the mixture into a loaf pan and bake for one hour.",
         "interactionStatistic": {
           "@context": "http://schema.org/",
           "@type": "InteractionCounter",
@@ -96,7 +96,7 @@
         "@type": "Product",
         "brand": "ACME",
         "name": "Executive Anvil",
-        "description": "Sleeker than ACME's Classic Anvil, the\n    Executive Anvil is perfect for the business traveler\n    looking for something to drop from a height.",
+        "description": "Sleeker than ACME's Classic Anvil, the Executive Anvil is perfect for the business traveler looking for something to drop from a height.",
         "mpn": "925872",
         "aggregateRating": {
           "@type": "AggregateRating",
