@@ -1,4 +1,7 @@
 import htmlparser from 'htmlparser2'
+import { AllHtmlEntities } from 'html-entities'
+
+const entities = new AllHtmlEntities()
 
 function getPropValue (tagName, attribs, TYPE, PROP) {
   if (attribs[TYPE]) {
@@ -99,10 +102,11 @@ const createHandler = function (specName) {
   }
   const ontext = function (text) {
     if (textForProp) {
+      const decodedText = entities.decode(text)
       if (Array.isArray(scopes[scopes.length - 1][textForProp])) {
-        scopes[scopes.length - 1][textForProp][scopes[scopes.length - 1][textForProp].length - 1] += text
+        scopes[scopes.length - 1][textForProp][scopes[scopes.length - 1][textForProp].length - 1] += decodedText
       } else {
-        scopes[scopes.length - 1][textForProp] += text
+        scopes[scopes.length - 1][textForProp] += decodedText
       }
     }
   }
