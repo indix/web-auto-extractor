@@ -7,7 +7,7 @@ export default function (html, config = {}) {
 
   $html('script[type="application/ld+json"]').each((index, item) => {
     try {
-      const json = item.children[0].data.trim().replace(/;$/, '')
+      const json = item.children[0].data.trim().replace(/[\r\n]/g, ' ').replace(/;$/, '')
       let parsedJSON = JSON.parse(json)
       if (!Array.isArray(parsedJSON)) {
         parsedJSON = [parsedJSON]
