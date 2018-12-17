@@ -1,4 +1,7 @@
 import htmlparser from 'htmlparser2'
+import { AllHtmlEntities } from 'html-entities'
+
+const entities = new AllHtmlEntities()
 
 function getPropValue (tagName, attribs, TYPE, PROP) {
   if (attribs[TYPE]) {
@@ -36,6 +39,8 @@ const getType = (typeString) => {
   }
 }
 
+const cleanWhitespace = text => text.replace(/\s+/g, ' ').trim()
+
 const createHandler = function (specName) {
   let scopes = []
   let tags = []
@@ -51,6 +56,9 @@ const createHandler = function (specName) {
       if (attribs[PROP] && currentScope) {
         let newScope = {}
         currentScope[attribs[PROP]] = currentScope[attribs[PROP]] || []
+        if (!Array.isArray(currentScope[attribs[PROP]])) {
+          currentScope[attribs[PROP]] = [currentScope[attribs[PROP]]]
+        }
         currentScope[attribs[PROP]].push(newScope)
         currentScope = newScope
       } else {
@@ -97,10 +105,11 @@ const createHandler = function (specName) {
   }
   const ontext = function (text) {
     if (textForProp) {
+      const decodedText = entities.decode(text)
       if (Array.isArray(scopes[scopes.length - 1][textForProp])) {
-        scopes[scopes.length - 1][textForProp][scopes[scopes.length - 1][textForProp].length - 1] += text.trim()
+        scopes[scopes.length - 1][textForProp][scopes[scopes.length - 1][textForProp].length - 1] += decodedText
       } else {
-        scopes[scopes.length - 1][textForProp] += text.trim()
+        scopes[scopes.length - 1][textForProp] += decodedText
       }
     }
   }
@@ -117,6 +126,12 @@ const createHandler = function (specName) {
         }
       })
     } else if (tag === PROP) {
+      const scope = scopes[scopes.length - 1]
+      if (Array.isArray(scope[textForProp])) {
+        scope[textForProp] = scope[textForProp].map(cleanWhitespace)
+      } else {
+        scope[textForProp] = cleanWhitespace(scope[textForProp])
+      }
       textForProp = false
     }
   }

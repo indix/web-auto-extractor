@@ -7,7 +7,18 @@ export default function (html, config = {}) {
 
   $html('script[type="application/ld+json"]').each((index, item) => {
     try {
-      let parsedJSON = JSON.parse($(item).text())
+      const json = item.children[0].data
+      const cleanedJson = json
+        // Trim whitespace
+        .trim()
+        // Handle invalid escpe characters
+        .replace(/([^bfrnt\\/"])\\([^bfrnt\\/"])/ig, '$1\\\\$2')
+        // Strip line breaks
+        .replace(/[\r\n]/g, ' ')
+        // Remove trailing semicolon
+        .replace(/;$/, '')
+
+      let parsedJSON = JSON.parse(cleanedJson)
       if (!Array.isArray(parsedJSON)) {
         parsedJSON = [parsedJSON]
       }
