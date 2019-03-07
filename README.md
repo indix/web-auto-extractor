@@ -131,7 +131,7 @@ const parseErrors = parsed.jsonld.errors(err => err.message)
 ```
 
 Clients can take advantage of checking for the presence of the `errors` property
-and responding accordingly.
+and respond accordingly.
 
 ## Caveat
 
