@@ -7,6 +7,8 @@ import WAE from '../src'
 const fileReader = (fileName) => fs.readFileSync(fileName, { encoding: 'utf-8' })
 const expectedResult = JSON.parse(fileReader('test/resources/expectedResult.json'))
 const testPage = fileReader('test/resources/testPage.html')
+const testErrorPage = fileReader('test/resources/testErrorPage.html')
+const expectedErrors = JSON.parse(fileReader('test/resources/expectedErrors.json'))
 const { microdata, rdfa, metatags, jsonld } = WAE().parse(testPage)
 
 describe('Web Auto Extractor', function () {
@@ -24,5 +26,16 @@ describe('Web Auto Extractor', function () {
 
   it('should find embedded meta tags', function () {
     assert.deepEqual(metatags, expectedResult.metatags)
+  })
+
+  describe('when there are parse errors', function () {
+    const { jsonld } = WAE().parse(testErrorPage)
+
+    it('should save jsonld parse errors', function () {
+      assert.deepEqual(
+        jsonld.errors.map(function (e) { return e.message }),
+        expectedErrors.jsonld
+      )
+    })
   })
 })
