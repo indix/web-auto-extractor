@@ -17,6 +17,8 @@ export default function (html, config = {}) {
         jsonldData[type].push(obj)
       })
     } catch (e) {
+      if (!('errors' in jsonldData)) { jsonldData.errors = [] }
+      jsonldData.errors.push(e)
       console.log(`Error in jsonld parse - ${e}`)
     }
   })

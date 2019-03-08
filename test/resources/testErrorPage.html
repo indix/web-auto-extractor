@@ -1,0 +1,140 @@
+<!-- Example of incomplete JSON object -->
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org/",
+  "@type": "Product",
+  "name": "Executive Anvil",
+  "image": "http://www.example.com/anvil_executive.jpg",
+  "description": "Sleeker than ACME's Classic Anvil, the Executive Anvil is perfect for the business traveler looking for something to drop from a height.",
+  "mpn": "925872",
+  "brand": {
+    "@type": "Thing",
+    "name": "ACME"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.4",
+    "reviewCount": "89"
+  },
+
+</script>
+<!-- Example of JSON with single instead of double-quotes -->
+<script type="application/ld+json">
+[
+  {
+    '@context':'http://schema.org',
+    '@type':'TheaterEvent',
+    'name':'Random Theater Show #1',
+    'startDate':'2016-12-15T19:30:00-06:00',
+    'location':{
+      '@type':'Place',
+      'name':'Theatre'
+    }
+  },
+  {
+    '@context':'http://schema.org',
+    '@type':'TheaterEvent',
+    'name':'Random Theater Show #2',
+    'startDate':'2016-12-16T19:30:00-06:00',
+    'location':{
+      '@type':'Place',
+      'name':'Theatre'
+    }
+  }
+]
+</script>
+<div itemscope itemtype="http://schema.org/Product">
+  <span itemprop="brand">ACME</span>
+  <span itemprop="name">Executive Anvil</span>
+  <img itemprop="image" src="anvil_executive.jpg" alt="Executive Anvil logo" />
+  <span itemprop="description">Sleeker than ACME's Classic Anvil, the
+    Executive Anvil is perfect for the business traveler
+    looking for something to drop from a height.
+  </span>
+  Product #: <span itemprop="mpn">925872</span>
+  <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+    <span itemprop="ratingValue">4.4</span> stars, based on <span itemprop="reviewCount">89
+      </span> reviews
+  </span>
+
+  <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+    Regular price: $179.99
+    <meta itemprop="priceCurrency" content="USD" />
+    $<span itemprop="price">119.99</span>
+    (Sale ends <time itemprop="priceValidUntil" datetime="2020-11-05">
+      5 November!</time>)
+    Available from: <span itemprop="seller" itemscope itemtype="http://schema.org/Organization">
+                      <span itemprop="name">Executive Objects</span>
+                    </span>
+    Condition: <link itemprop="itemCondition" href="http://schema.org/UsedCondition"/>Previously owned,
+      in excellent condition
+    <link itemprop="availability" href="http://schema.org/InStock"/>In stock! Order now!</span>
+  </span>
+</div>
+<!-- example from http://schema.org/Recipe -->
+<div itemscope itemtype="http://schema.org/Recipe">
+  <span itemprop="name">Mom's World Famous Banana Bread</span>
+  By <span itemprop="author">John Smith</span>,
+  <meta itemprop="datePublished" content="2009-05-08">May 8, 2009
+  <meta http-equiv="refresh" content="30">
+  <img itemprop="image" src="bananabread.jpg"
+       alt="Banana bread on a plate" />
+  <span itemprop="description">This classic banana bread recipe comes
+  from my mom -- the walnuts add a nice texture and flavor to the banana
+  bread.</span>
+  Prep Time: <meta itemprop="prepTime" content="PT15M">15 minutes
+  Cook time: <meta itemprop="cookTime" content="PT1H">1 hour
+  Yield: <span itemprop="recipeYield">1 loaf</span>
+  Tags: <link itemprop="suitableForDiet" href="http://schema.org/LowFatDiet" />Low fat
+  <div itemprop="nutrition"
+       itemscope itemtype="http://schema.org/NutritionInformation">
+    Nutrition facts:
+    <span itemprop="calories">240 calories</span>,
+    <span itemprop="fatContent">9 grams fat</span>
+  </div>
+  Ingredients:
+  - <span itemprop="recipeIngredient">3 or 4 ripe bananas, smashed</span>
+  - <span itemprop="recipeIngredient">1 egg</span>
+  - <span itemprop="recipeIngredient">3/4 cup of sugar</span>
+  ...
+  Instructions:
+  <span itemprop="recipeInstructions">
+  Preheat the oven to 350 degrees. Mix in the ingredients in a bowl. Add
+  the flour last. Pour the mixture into a loaf pan and bake for one hour.
+  </span>
+  140 comments:
+  <div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">
+    <meta itemprop="interactionType" content="http://schema.org/CommentAction" />
+    <meta itemprop="userInteractionCount" content="140" />
+  </div>
+  From Janel, May 5 -- thank you, great recipe!
+  ...
+</div>
+<div vocab="http://schema.org/" typeof="Product">
+  <span property="brand">ACME</span>
+  <span property="name">Executive Anvil</span>
+  <img propertyu="image" src="anvil_executive.jpg" alt="Executive Anvil logo" />
+  <span property="description">Sleeker than ACME's Classic Anvil, the
+    Executive Anvil is perfect for the business traveler
+    looking for something to drop from a height.
+  </span>
+  Product #: <span property="mpn">925872</span>
+  <span property="aggregateRating" typeof="AggregateRating">
+    <span property="ratingValue">4.4</span> stars, based on <span property="reviewCount">89
+      </span> reviews
+  </span>
+
+  <span property="offers" typeof="Offer">
+    Regular price: $179.99
+    <meta property="priceCurrency" content="USD" />
+    $<span property="price">119.99</span>
+    (Sale ends <time property="priceValidUntil" datetime="2020-11-05">
+      5 November!</time>)
+    Available from: <span property="seller" typeof="Organization">
+                      <span property="name">Executive Objects</span>
+                    </span>
+    Condition: <link property="itemCondition" href="http://schema.org/UsedCondition"/>Previously owned,
+      in excellent condition
+    <link property="availability" content="http://schema.org/InStock"/>In stock! Order now!</span>
+  </span>
+</div>

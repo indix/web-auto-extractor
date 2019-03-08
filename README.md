@@ -115,6 +115,24 @@ Our `parsed` object should look like -
 
 The `parsed` object includes four objects - `microdata`, `rdfa`, `jsonld` and `metatags`. Since the above HTML does not have any information encoded in `rdfa` and `jsonld`, those two objects are empty.
 
+#### [Errors](#errors)
+
+There is no guarantee against malformed content when working with live pages on
+the Internet. This is especially true when webmasters attempt to work with
+JSON-LD. You can expect to parse a page with malformed content at some point.
+
+In the case of JSON-LD, the parser will accumulate any parse errors encountered
+in an `errors` array if at least one was encountered. Note, they will be full
+Node.js error objects, so be prepared to pull off the data you need.
+
+```js
+const parsed = WAE().parse(whatWereTheyThinkingHTML)
+const parseErrors = parsed.jsonld.errors(err => err.message)
+```
+
+Clients can take advantage of checking for the presence of the `errors` property
+and respond accordingly.
+
 ## Caveat
 
 I wouldn't call it a caveat but rather the parser is strict by design. It might not parse like expected if the HTML isn't encoded correctly, so one might assume the parser is broken.
