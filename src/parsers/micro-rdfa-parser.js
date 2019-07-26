@@ -36,6 +36,8 @@ const getType = (typeString) => {
   }
 }
 
+const cleanWhitespace = text => text.replace(/\s+/g, ' ').trim()
+
 const createHandler = function (specName) {
   let scopes = []
   let tags = []
@@ -98,9 +100,9 @@ const createHandler = function (specName) {
   const ontext = function (text) {
     if (textForProp) {
       if (Array.isArray(scopes[scopes.length - 1][textForProp])) {
-        scopes[scopes.length - 1][textForProp][scopes[scopes.length - 1][textForProp].length - 1] += text.trim()
+        scopes[scopes.length - 1][textForProp][scopes[scopes.length - 1][textForProp].length - 1] += text
       } else {
-        scopes[scopes.length - 1][textForProp] += text.trim()
+        scopes[scopes.length - 1][textForProp] += text
       }
     }
   }
@@ -117,6 +119,12 @@ const createHandler = function (specName) {
         }
       })
     } else if (tag === PROP) {
+      const scope = scopes[scopes.length - 1];
+      if (Array.isArray(scope[textForProp])) {
+        scope[textForProp] = scope[textForProp].map(cleanWhitespace);
+      } else {
+        scope[textForProp] = cleanWhitespace(scope[textForProp]);
+      }
       textForProp = false
     }
   }
