@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "babel-polyfill": "^6.8.0",
-    "cheerio": "^0.22.0",
+    "cheerio": "^1.0.0-rc.10",
     "htmlparser2": "^3.9.1"
   },
   "devDependencies": {
